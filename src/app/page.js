@@ -11,7 +11,6 @@ import Link from "next/link";
 
 const WORDART_PHRASES_PER_VERSION = 10;
 const WORDART_VERSION_INTERVAL_MS = 1000;
-const WORDART_SCROLL_RESUME_DELAY_MS = 2000;
 
 const WIKI_SHORT_WORDS = new Set([
   "a", "an", "the", "in", "on", "at", "of", "to", "for", "from", "but", "and",
@@ -517,31 +516,6 @@ export default function Home() {
   const versionIndexRef = useRef(0);
   const latestWordArtVersionIdRef = useRef("");
   const selectedWordArtVersionIdRef = useRef("");
-  const isWordArtManuallyStoppedRef = useRef(false);
-  const wordArtScrollResumeTimeoutRef = useRef(null);
-
-  function clearWordArtVersionInterval() {
-    if (wordArtIntervalRef.current) {
-      window.clearInterval(wordArtIntervalRef.current);
-      wordArtIntervalRef.current = null;
-    }
-  }
-
-  function canResumeWordArtVersionInterval() {
-    if (isWordArtManuallyStoppedRef.current) {
-      return false;
-    }
-
-    const root = wordArtRootRef.current;
-
-    if (!root) {
-      return false;
-    }
-
-    const totalCells = collectWordArtCells(root).length;
-
-    return Boolean(totalCells) && latestChangedCountRef.current < totalCells;
-  }
 
   function handleWordArtVersionSelect(version) {
     const root = wordArtRootRef.current;
@@ -555,8 +529,11 @@ export default function Home() {
   }
 
   function stopWordArtVersionInterval() {
-    clearWordArtVersionInterval();
-    isWordArtManuallyStoppedRef.current = true;
+    if (wordArtIntervalRef.current) {
+      window.clearInterval(wordArtIntervalRef.current);
+      wordArtIntervalRef.current = null;
+    }
+
     setIsWordArtStopped(true);
   }
 
@@ -621,36 +598,15 @@ export default function Home() {
   }
 
   function startWordArtVersionInterval() {
-    if (wordArtIntervalRef.current || !canResumeWordArtVersionInterval()) {
+    if (wordArtIntervalRef.current) {
       return;
     }
 
-    isWordArtManuallyStoppedRef.current = false;
     setIsWordArtStopped(false);
     wordArtIntervalRef.current = window.setInterval(
       runWordArtVersionTick,
       WORDART_VERSION_INTERVAL_MS
     );
-  }
-
-  function pauseWordArtVersionIntervalForScroll() {
-    clearWordArtVersionInterval();
-  }
-
-  function scheduleWordArtResumeAfterScroll() {
-    if (wordArtScrollResumeTimeoutRef.current) {
-      window.clearTimeout(wordArtScrollResumeTimeoutRef.current);
-    }
-
-    wordArtScrollResumeTimeoutRef.current = window.setTimeout(function () {
-      wordArtScrollResumeTimeoutRef.current = null;
-      startWordArtVersionInterval();
-    }, WORDART_SCROLL_RESUME_DELAY_MS);
-  }
-
-  function handleWordArtScroll() {
-    pauseWordArtVersionIntervalForScroll();
-    scheduleWordArtResumeAfterScroll();
   }
 
   function handleToggleWordArtVersions() {
@@ -693,34 +649,18 @@ export default function Home() {
     selectedWordArtVersionIdRef.current = initialVersion.id;
     setWordArtVersions([initialVersion]);
     setSelectedWordArtVersionId(initialVersion.id);
-    isWordArtManuallyStoppedRef.current = false;
     setIsWordArtStopped(false);
 
     initializeWikiTextCloning(root);
     applyRandomWordArtCount(root, initialVersion.changedCount);
     startWordArtVersionInterval();
 
-    const scrollRoots = [
-      document.querySelector("#wikiMainScroll"),
-      document.querySelector("#hello")
-    ].filter(Boolean);
-
-    scrollRoots.forEach(function (scrollRoot) {
-      scrollRoot.addEventListener("scroll", handleWordArtScroll, { passive: true });
-    });
-
     return function () {
-      clearWordArtVersionInterval();
-
-      if (wordArtScrollResumeTimeoutRef.current) {
-        window.clearTimeout(wordArtScrollResumeTimeoutRef.current);
-        wordArtScrollResumeTimeoutRef.current = null;
+      if (wordArtIntervalRef.current) {
+        window.clearInterval(wordArtIntervalRef.current);
       }
 
-      scrollRoots.forEach(function (scrollRoot) {
-        scrollRoot.removeEventListener("scroll", handleWordArtScroll);
-      });
-
+      wordArtIntervalRef.current = null;
       wordArtRootRef.current = null;
     };
   }, []);
@@ -830,7 +770,7 @@ export default function Home() {
             <hr className="wiki-article-divider" />
 
             <article className="wiki-vector-content" id="wikiMainScroll">
-              <WikiProfileInfobox />
+              
 
               <p className="wiki-lead">
                 <strong>Cyberclone: The Internet, Memes, and Mass Imitation</strong><br />
@@ -839,6 +779,7 @@ export default function Home() {
               </p>
 
               <h2 id="wiki-sec-abstract" className="wiki-heading">Abstract</h2>
+              <WikiProfileInfobox />
               <p>
                 This essay proposes Cyberclone as a way to describe how <a className="wiki-inline-link" href="#" data-preview-index="1">internet memes</a> move beyond digital images
                 and begin to shape real bodies, language, identities, and forms of consumption. Cyberclone does
@@ -862,6 +803,7 @@ export default function Home() {
                 sharing, imitation, consumption, performance, and bodily practice. Through these repeated actions,
                 users may become cultural clones within cyberspace: Cyberclones.
               </p>
+             
               <p>
                 Cyberclone describes a process in which a meme does not remain a single image, video, or phrase.
                 Once a meme enters the internet, it becomes part of a larger loop of screenshots, reposts, edits,

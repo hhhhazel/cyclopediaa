@@ -5,8 +5,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const REFERENCE_IMAGE = "/motion/6.png";
 const GESTURE_LABEL = "Crying Face";
 const MODEL_URL = "https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/model";
-const SAD_THRESHOLD = 0.5;
-const PASS_FRAMES = 8;
+const SAD_THRESHOLD = 0.2;
+const PASS_FRAMES = 1;
 
 export default function WikiGestureCaptcha() {
   const [open, setOpen] = useState(false);
@@ -115,6 +115,10 @@ export default function WikiGestureCaptcha() {
             .then(function (result) {
               if (cancelled) {
                 return;
+              }
+
+              if (result) {
+                console.log("sad:", result.expressions.sad.toFixed(3));
               }
 
               if (result && result.expressions.sad >= SAD_THRESHOLD) {
