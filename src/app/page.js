@@ -11,6 +11,8 @@ import Link from "next/link";
 
 const WORDART_PHRASES_PER_VERSION = 10;
 const WORDART_VERSION_INTERVAL_MS = 1000;
+const MOBILE_WORDART_MAX_WIDTH = 700;
+const MOBILE_WORDART_PHRASE_COUNT = 1300;
 
 const WIKI_SHORT_WORDS = new Set([
   "a", "an", "the", "in", "on", "at", "of", "to", "for", "from", "but", "and",
@@ -504,6 +506,16 @@ function formatWordArtVersionTime(date) {
   });
 }
 
+function isMobileWordArtViewport() {
+  return window.matchMedia("(max-width: " + MOBILE_WORDART_MAX_WIDTH + "px)").matches;
+}
+
+function getMobileWordArtPhraseCount(root) {
+  const totalCells = collectWordArtCells(root).length;
+
+  return Math.min(MOBILE_WORDART_PHRASE_COUNT, totalCells);
+}
+
 export default function Home() {
   const [wordArtVersions, setWordArtVersions] = useState([]);
   const [selectedWordArtVersionId, setSelectedWordArtVersionId] = useState("");
@@ -534,6 +546,27 @@ export default function Home() {
       wordArtIntervalRef.current = null;
     }
 
+    setIsWordArtStopped(true);
+  }
+
+  function applyMobileWordArtSnapshot(root) {
+    const changedCount = applyRandomWordArtCount(
+      root,
+      getMobileWordArtPhraseCount(root)
+    );
+    const snapshotVersion = {
+      id: "wordart-version-0",
+      label: formatWordArtVersionTime(new Date()),
+      changedCount: changedCount
+    };
+
+    latestChangedCountRef.current = changedCount;
+    versionIndexRef.current = 0;
+    latestWordArtVersionIdRef.current = snapshotVersion.id;
+    selectedWordArtVersionIdRef.current = snapshotVersion.id;
+    wordArtVersionsRef.current = [snapshotVersion];
+    setWordArtVersions([snapshotVersion]);
+    setSelectedWordArtVersionId(snapshotVersion.id);
     setIsWordArtStopped(true);
   }
 
@@ -598,7 +631,7 @@ export default function Home() {
   }
 
   function startWordArtVersionInterval() {
-    if (wordArtIntervalRef.current) {
+    if (wordArtIntervalRef.current || isMobileWordArtViewport()) {
       return;
     }
 
@@ -610,6 +643,16 @@ export default function Home() {
   }
 
   function handleToggleWordArtVersions() {
+    if (isMobileWordArtViewport()) {
+      const root = wordArtRootRef.current;
+
+      if (root) {
+        applyMobileWordArtSnapshot(root);
+      }
+
+      return;
+    }
+
     if (wordArtIntervalRef.current) {
       stopWordArtVersionInterval();
       return;
@@ -635,25 +678,29 @@ export default function Home() {
       return undefined;
     }
 
-    const initialVersion = {
-      id: "wordart-version-0",
-      label: "Initial",
-      changedCount: 0
-    };
-
     wordArtRootRef.current = root;
-    wordArtVersionsRef.current = [initialVersion];
-    latestChangedCountRef.current = 0;
-    versionIndexRef.current = 0;
-    latestWordArtVersionIdRef.current = initialVersion.id;
-    selectedWordArtVersionIdRef.current = initialVersion.id;
-    setWordArtVersions([initialVersion]);
-    setSelectedWordArtVersionId(initialVersion.id);
-    setIsWordArtStopped(false);
-
     initializeWikiTextCloning(root);
-    applyRandomWordArtCount(root, initialVersion.changedCount);
-    startWordArtVersionInterval();
+
+    if (isMobileWordArtViewport()) {
+      applyMobileWordArtSnapshot(root);
+    } else {
+      const initialVersion = {
+        id: "wordart-version-0",
+        label: "Initial",
+        changedCount: 0
+      };
+
+      wordArtVersionsRef.current = [initialVersion];
+      latestChangedCountRef.current = 0;
+      versionIndexRef.current = 0;
+      latestWordArtVersionIdRef.current = initialVersion.id;
+      selectedWordArtVersionIdRef.current = initialVersion.id;
+      setWordArtVersions([initialVersion]);
+      setSelectedWordArtVersionId(initialVersion.id);
+      setIsWordArtStopped(false);
+      applyRandomWordArtCount(root, initialVersion.changedCount);
+      startWordArtVersionInterval();
+    }
 
     return function () {
       if (wordArtIntervalRef.current) {
