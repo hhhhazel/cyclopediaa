@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 页面基础信息和移动端自适应设置 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyberclone</title>
+
+  <!-- 整个网站使用的主样式文件 -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- 导入映射：让 script.js 可以用简短名称引入 Three.js 模块 -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div class="page-shell">
+    <!-- 自定义图片鼠标指针，显示在页面界面上方 -->
+    <img id="customCursor" src="/images/cyberclone-run.gif" alt="" draggable="false" />
+
+    <!-- 全站搜索顶栏：搜索框 + Donate 等（不含 Recall clones） -->
+    <header class="site-global-header wiki-vector-header" id="siteGlobalHeader">
+      <div class="wiki-vector-header-inner">
+        <div class="wiki-logo-slot" aria-hidden="true"></div>
+
+        <form class="wiki-search-form" id="wikiSearchForm" action="#" method="get">
+          <input
+            class="wiki-search-input"
+            id="wikiSearchInput"
+            type="search"
+            name="search"
+            placeholder="Search Cyclopedia"
+            aria-label="Search Cyclopedia"
+          />
+          <button class="wiki-search-button" type="submit">Search</button>
+        </form>
+
+        <nav class="wiki-header-links" aria-label="Personal tools">
+          <a href="#">Donate</a>
+          <a href="#">Create account</a>
+          <a href="#">Log in</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 首页：Cyclopedia Vector 三栏版式 -->
+    <section id="hello" class="section active">
+      <div class="wiki-mobile-shell">
+        <div class="wiki-mobile-chrome-top" aria-hidden="true">
+          <div class="wiki-mobile-status">
+            <span class="wiki-mobile-time">19:23</span>
+            <span class="wiki-mobile-status-icons">▮▮▮ ▮ WiFi 🔋</span>
+          </div>
+          <div class="wiki-dynamic-island"></div>
+          <div class="wiki-mobile-url-bar">
+            <span class="wiki-mobile-url-icon">Aa</span>
+            <span class="wiki-mobile-url-text">en.cyclopedia.org</span>
+            <span class="wiki-mobile-url-refresh">↻</span>
+          </div>
+        </div>
+
+      <div class="wiki-vector">
+        <div class="wiki-vector-body">
+          <aside class="wiki-vector-toc" aria-label="Table of contents">
+            <div class="wiki-toc-head">
+              <strong>Contents</strong>
+              <button type="button" class="wiki-toc-hide" id="wikiTocHide">hide</button>
+            </div>
+
+            <nav class="wiki-toc-nav" id="wikiTocNav">
+              <ol class="wiki-toc-list">
+                <li><a class="wiki-toc-link" href="#wiki-sec-1"><span class="wiki-toc-num">1</span> What Is Cyberclone?</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-2"><span class="wiki-toc-num">2</span> Meme, Imitation, and Clone</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-3"><span class="wiki-toc-num">3</span> Memes Are Not Only Memes</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-4"><span class="wiki-toc-num">4</span> Attention, Prestige, and Self-Commodification</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-5"><span class="wiki-toc-num">5</span> The Embodiment of Meme</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-6"><span class="wiki-toc-num">6</span> Identity and Participatory Popularity</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-7"><span class="wiki-toc-num">7</span> Supermeme and Merchandise</a></li>
+                <li><a class="wiki-toc-link" href="#wiki-sec-8"><span class="wiki-toc-num">8</span> Conclusion</a></li>
+              </ol>
+            </nav>
+          </aside>
+
+          <main class="wiki-vector-main">
+            <h1 class="wiki-article-title">Cyberclone</h1>
+
+            <div class="wiki-article-tools">
+              <div class="wiki-article-tabs">
+                <span class="wiki-tab wiki-tab--active">Article</span>
+                <a class="wiki-tab" href="#">Talk</a>
+              </div>
+              <div class="wiki-article-views">
+                <span class="wiki-view wiki-view--active">Read</span>
+                <a class="wiki-view" href="#">View source</a>
+                <a class="wiki-view" href="#">View history</a>
+              </div>
+            </div>
+
+            <hr class="wiki-article-divider" />
+
+            <article class="wiki-vector-content" id="wikiMainScroll">
+              <p class="wiki-lead">
+                <strong>Cyberclone: The Internet, Memes, and Mass Imitation</strong><br />
+                By collecting internet images related to Kardashian family memes from 2007 to 2026, this website
+                examines how meme-driven imitation influences consumption, identity, embodiment, etc.
+              </p>
+
+              <h2 id="wiki-sec-abstract" class="wiki-heading">Abstract</h2>
+              <p>
+                This essay proposes Cyberclone as a way to describe how <a class="wiki-inline-link" href="#" data-preview-index="1">internet memes</a> move beyond digital images
+                and begin to shape real bodies, language, identities, and forms of consumption. Cyberclone does
+                not refer to biological cloning. It refers to a cultural process in which <a class="wiki-inline-link" href="#" data-preview-index="2">memes act</a> like repeatable
+                templates. Through viewing, sharing, editing, remixing, performing, buying, dressing up, using
+                filters, and imitating body gestures, users gradually become living variations following the same
+                cultural pattern. The essay takes Kardashian-related memes as its main case study. These memes are
+                not treated as simple jokes or isolated images. They are understood as viral cultural systems that
+                connect celebrity culture, social media performance, amateur video production, beauty tutorials,
+                profile pictures, body modification, filters, and meme products.
+              </p>
+
+              <h2 id="wiki-sec-1" class="wiki-heading">What Is Cyberclone?</h2>
+
+              <h3 id="wiki-sec-1-1" class="wiki-heading">Concept</h3>
+              <p>
+                Cyberclone is a speculative concept. It borrows from the idea of reproductive cloning, where an
+                existing life form can be used as a model for producing another similar life form. In this essay,
+                however, cloning is not used in a biological sense. It is used as <a class="wiki-inline-link" href="#" data-preview-index="3">a cultural metaphor</a>. A meme is
+                understood as a kind of cultural gene, and the public approaches this cultural gene through joking,
+                sharing, imitation, consumption, performance, and bodily practice. Through these repeated actions,
+                users may become cultural clones within cyberspace: Cyberclones.
+              </p>
+              <p>
+                Cyberclone describes a process in which a meme does not remain a single image, video, or phrase.
+                Once a meme enters the internet, it becomes part of a larger loop of screenshots, reposts, edits,
+                remixes, voiceovers, beauty tutorials, filters, costumes, products, and bodily imitation. It gains
+                new versions each time it is used. It creates new branches each time it is changed. The meme survives
+                because it is copied, and it grows because each copy is slightly different.
+              </p>
+              <p>
+                People still keep their own faces, names, and identities, but their ways of speaking, posing,
+                dressing, reacting, consuming, and presenting bodies gradually follow <a class="wiki-inline-link" href="#" data-preview-index="4">the same public pattern</a>.
+                Cyberclone produces cultural similarity. The meme becomes a model, and the user becomes a living
+                variation of that model.
+              </p>
+              <p>
+                The &ldquo;clone&rdquo; in this essay is not an identical copy, but a cultural variant shaped by
+                the same memetic structure. A Cyberclone is therefore a user whose speech, gestures, profile image,
+                make-up, body image, style, or <a class="wiki-inline-link" href="#" data-preview-index="7">consumer behavior</a> has been partially reorganized by a meme.
+              </p>
+
+              <h3 id="wiki-sec-1-2" class="wiki-heading">Core Argument</h3>
+              <p>
+                The central question of Cyberclone is: How do memes affect contemporary life?
+              </p>
+              <p>
+                Memes are usually understood as humorous, ironic, or exaggerated forms of online communication that
+                transform social events, emotions, and opinions into easily shareable images, phrases, sounds, and
+                symbols. However, this essay is more concerned with what happens when memes are repeatedly viewed,
+                used, edited, reenacted, and uploaded again. In this process, memes <a class="wiki-inline-link" href="#" data-preview-index="5">exceed the space of the screen</a>
+                and enter everyday language, posture, consumption, bodily expression, and identity formation. In
+                this sense, Cybercloning describes a process through which users gradually <a class="wiki-inline-link" href="#" data-preview-index="6">approach a shared cultural
+                template</a>, blurring virtual and physical boundaries.
+              </p>
+
+              <h3 id="wiki-sec-1-3" class="wiki-heading">Meme</h3>
+              <p>
+                The term &ldquo;meme&rdquo; was introduced by Richard Dawkins in <em>The Selfish Gene</em>. Dawkins
+                described the meme as a unit of cultural transmission that spreads through imitation, in a way
+                comparable to how genes replicate biologically (Dawkins 1976). Melodies, catchphrases, fashion
+                trends, beliefs, and ideas can all be understood as examples of memes in this broader cultural sense
+                (Dawkins 1976).
+              </p>
+              <p>
+                Internet memes differ from ordinary images because they are participatory, editable, authorless, and
+                continuously transformable. Limor Shifman defines an internet meme not as a single successful image or
+                joke, but as a group of <a class="wiki-inline-link" href="#" data-preview-index="8">digital items</a> that share characteristics of content, form, or stance, are
+                created with awareness of each other, and are circulated, imitated, or transformed by many users
+                online (Shifman 2014, 41&ndash;42). This definition is important because it shifts the meme from a
+                single object to a changing group of related versions.
+              </p>
+              <p>
+                In the digital environment, images, sounds, texts, and videos can be captured, edited, renamed,
+                remixed, and returned to the communication circuit almost immediately. <em>Eternal September</em>
+                describes this condition as one in which the metamorphic nature of cultural products increases
+                because any content can be edited in real time and fed back into circulation (VV.AA. 2014, 8). As a
+                result, the viewer is no longer only a receiver of content, but becomes one of the nodes through
+                which the meme continues to reproduce.
+              </p>
+              <p>
+                Therefore, <a class="wiki-inline-link" href="#" data-preview-index="9">the popularity of memes</a> today is not simply the popularity of images. It is a form of mass
+                imitation. People do not only repost funny images in chats; they answer with meme phrases, pose
+                photographs according to meme formats, purchase meme products, shoot short imitation videos, copy
+                meme sounds, and participate in meme trends. This essay calls this meme-based embodied imitation,
+                extended into consumption, language, and bodily practice, Cyberclone.
+              </p>
+
+              <figure class="wiki-thumb wiki-thumb-lab">
+                <div class="wiki-thumb-inner">
+                  <a
+                    class="wiki-thumb-image-link"
+                    href="#lab"
+                    data-section-link="lab"
+                    aria-label="Open Cyberclone Laboratory"
+                  >
+                    <img src="/images/hello-gif.gif" alt="Cyberclone Laboratory" width="220" height="165" draggable="false" />
+                  </a>
+                  <figcaption class="wiki-thumb-caption">
+                    Cyberclone Laboratory, used for observing meme replication and cultivating specimens in a simulated research environment.
+                  </figcaption>
+                </div>
+              </figure>
+
+              <h2 id="wiki-sec-2" class="wiki-heading">Meme, Imitation, and Clone</h2>
+
+              <h3 id="wiki-sec-2-1" class="wiki-heading">Imitation</h3>
+
+              <p>
+                The Greek word mimema, meaning &ldquo;<a class="wiki-inline-link" href="#" data-preview-index="10">that which is imitated</a>,&rdquo; is the linguistic root of the word
+                meme. Imitation has long existed as a mechanism of survival, learning, and social formation. Gabriel
+                Tarde argued that society is fundamentally organized through imitation, and that social phenomena such
+                as fashion, religion, custom, and collective behavior spread through repeated acts of copying (Tarde
+                1903). Human beings learn language, gestures, manners, and social norms through imitation. Many animals
+                also use imitation for protection, camouflage, adaptation, or hunting.
+              </p>
+              <p>
+                <a class="wiki-inline-link" href="#" data-preview-index="11">Imitation is a natural mechanism</a> of replication: it allows an individual to repeat an existing pattern
+                and enter a surrounding environment more quickly. In the biological world, mimicry is one of the most
+                typical visual forms of imitation. Some organisms gradually come to resemble the appearance, behavior, or
+                survival strategies of other organisms through long-term evolution. For example, <a class="wiki-inline-link" href="#" data-preview-index="12">the mimic octopus</a> can
+                imitate the forms and movements of sea snakes, lionfish, and other marine animals in order to gain
+                protection or approach prey (Norman, Finn, and Tregenza 2001). In this case, imitation appears as a
+                movement toward an external object.
+              </p>
+              <p>
+                Imitation can also appear as convergence within a group. When a large number of individuals live in
+                similar environments for long periods of time, they may gradually come to share similar colors, forms,
+                and behavioral characteristics. As a visual analogy, the repeated stripe patterns and highly similar
+                bodily forms of clownfish can make the group appear as if it were continuously generated <a class="wiki-inline-link" href="#" data-preview-index="13">from the same
+                template</a>. In this situation, the object of imitation is no longer a single external individual, but the
+                group itself.
+              </p>
+              <p>
+                For Cyberclone, these two forms of imitation also exist within the internet environment. On the one
+                hand, users actively imitate recognizable and highly iconic memes. Like mimetic organisms imitating a
+                &ldquo;sea snake,&rdquo; they move closer to an already recognized image in order to obtain attention,
+                traffic, and a symbolic form of <a class="wiki-inline-link" href="#" data-preview-index="14">&ldquo;protection.&rdquo;</a> Imitation helps individuals integrate into
+                their environment. However, this environment is no longer a biological ecosystem, but <a class="wiki-inline-link" href="#" data-preview-index="15">a cybernetic
+                space composed</a> of images, language, platforms, and algorithms. Within this space, individuals are
+                expected to constantly shape their own distinct online identities and images, while at the same time
+                relying on shared cultural symbols to shape their gestures and phrases to complete their expressions. In
+                other words, users may appear to display individuality through memes, but in practice they often depend
+                on templates that have already been widely <a class="wiki-inline-link" href="#" data-preview-index="16">circulated by others</a>.
+              </p>
+              <p>
+                This contradiction is related to the logic of &ldquo;<a class="wiki-inline-link" href="#" data-preview-index="17">networked individualism</a>.&rdquo; In an increasingly
+                individualized contemporary society, people are expected to construct a unique self and display their
+                difference through images, videos, profile pictures, language, and consumer choices. At the same time,
+                however, expression on social networks depends heavily on shared cultural symbols. When users upload
+                self-made videos, edited images, or memes, they may seem to demonstrate digital literacy, creativity,
+                and personal style; yet their text, posture, and visual form often point back to a common memetic
+                template that has already been widely circulated. Therefore, when certain memes, gestures, or phrases
+                become default markers of trend awareness, individuals repeatedly reproduce these templated expressions
+                in order to show that they &ldquo;know the meme&rdquo; and can be recognized as part of the group. When
+                more and more people move toward the same cultural gene in pursuit of visibility and belonging,
+                imitation is no longer merely scattered individual behavior. It gradually develops into a large-scale
+                phenomenon of cultural cloning.
+              </p>
+
+              <h3 id="wiki-sec-2-2" class="wiki-heading">Mass Imitation</h3>
+              <p>
+                Mass imitation did not begin with the internet. In the early twentieth century, audiences did not only
+                watch Chaplin films; they copied his costume, posture, walk, and <a class="wiki-inline-link" href="#" data-preview-index="19">comic gestures</a>. This suggests that
+                imitation is not limited to visual repetition. It can also produce consumer goods, impersonation
+                contests, costumes, music, identity performance, and shared <a class="wiki-inline-link" href="#" data-preview-index="20">aesthetic taste</a>.
+              </p>
+              <p>
+                The internet did not invent imitation, but it changed its speed, scale, and feedback structure. Before
+                the internet, imitation usually spread through cinema, magazines, dance halls, commodities, celebrity
+                culture, or physical gatherings. On the internet, an image, sound, phrase, or video fragment can be
+                clipped, edited, uploaded, circulated, reenacted, and returned to the platform within a very short
+                time. <a class="wiki-inline-link" href="#" data-preview-index="21">Every viewer can immediately</a> become another imitator, editor, performer. Charlie Chaplin&rsquo;s
+                image generated a large wave of public imitation, often described as &ldquo;Chaplinitis&rdquo; or
+                &ldquo;<a class="wiki-inline-link" href="#" data-preview-index="18">Chaplin fever</a>.&rdquo;
+              </p>
+              <p>
+                This is why Cyberclone focuses on meme culture as a contemporary form of mass imitation. Meme culture
+                does not simply repeat older forms of celebrity imitation; it accelerates them. The meme becomes <a class="wiki-inline-link" href="#" data-preview-index="22">a
+                template</a>, the platform becomes a circulation machine, and the user becomes both audience and producer.
+              </p>
+
+              <h3 id="wiki-sec-2-3" class="wiki-heading">Clone</h3>
+              <p>
+                In the internet age, imitation is amplified globally and synchronously. When imitation becomes highly
+                repetitive, platform-driven, and technically reproducible, it begins to approach a cultural form of
+                cloning. The clone in this essay is therefore not a biological copy, but a cultural figure produced
+                through repeated proximity to the same template.
+              </p>
+              <p>
+                In biology, <a class="wiki-inline-link" href="#" data-preview-index="23">Dolly</a> the sheep became famous as the first mammal cloned from an adult cell. Dolly&rsquo;s
+                birth made cloning visible to a wide public and showed that an existing living organism could become the
+                template for another highly similar organism (National Museums Scotland n.d.). The cultural imagination
+                of cloning has since been associated with questions of identity, individuality, freedom, and the
+                disappearance of difference.
+              </p>
+              <p>
+                This essay borrows the concept of cloning in order to ask a different question: when a cultural gene
+                can be copied repeatedly across global platforms, are people&rsquo;s expressions, gestures, identities,
+                and bodies also <a class="wiki-inline-link" href="#" data-preview-index="24">being cloned</a>? Even if no biological life is being reproduced, cultural life may still
+                be organized through replication. Cyberclone names this process.
+              </p>
+
+              <h3 id="wiki-sec-2-4" class="wiki-heading">The Kardashians</h3>
+              <p>
+                This essay uses a series of memes related to The Kardashians to examine Cyberclone. Kardashian memes
+                often appear light, comic, excessive, or unserious, but they carry specific emotions, values,
+                lifestyles, and cultural fantasies. They invite users not only to watch or laugh, but also to reproduce,
+                embody, and perform.
+              </p>
+              <p>
+                When users repeatedly encounter <a class="wiki-inline-link" href="#" data-preview-index="25">Kardashian-related memes</a>, they may begin to imitate the same set of
+                gestures, poses, phrases, make-up styles, clothes, or body ideals. They may quote Kardashian-style lines
+                in conversation, use Kardashian images as profile pictures, imitate Kardashian facial expressions,
+                purchase similar products, or temporarily construct themselves as a &ldquo;Kardashian-style&rdquo; girl.
+                In this process, the meme does not remain a digital joke. It becomes a cultural gene that organizes
+                images, bodies, identities, and commodities.
+              </p>
+              <p>
+                Cyberclone is therefore not concerned with a single act of imitation. It is concerned with how repeated
+                cultural genes accumulate, circulate, and intensify until they produce a systematic cloning effect.
+              </p>
+
+              <h2 id="wiki-sec-3" class="wiki-heading">Memes Are Not Only Memes</h2>
+              <p>
+                Dawkins noted that memes do not necessarily spread in isolation; they may combine with other ideas,
+                images, beliefs, and behaviors to form larger cultural structures (Dawkins 1976). In contemporary
+                internet culture, what circulates is rarely only the meme itself. A meme may also carry desires, values,
+                <a class="wiki-inline-link" href="#" data-preview-index="26">identities, social fantasies</a>, and models of lifestyle.
+              </p>
+              <p>
+                This is especially clear in the case of Kardashian-related memes. When users engage with Kardashian
+                memes, they are not only circulating pictures of Kim Kardashian or Kris Jenner. They are also
+                circulating fantasies of wealth, celebrity, media visibility, beauty, bodily transformation, family power,
+                and success. This is why memes should be understood not only as visual content, but as cultural
+                structures that connect images to ways of living.
+              </p>
+              <p>
+                <em>Buffalo Viral</em> <a class="wiki-inline-link" href="#" data-preview-index="27">frames virality</a> as a broader contemporary condition that includes memes,
+                influencers, make-up tutorials, and social media experiments (<em>Buffalo Zine</em> 2021). This broader
+                framework is useful for Kardashian memes because they do not remain inside the category of the joke. They
+                move across <a class="wiki-inline-link" href="#" data-preview-index="28">profile pictures</a>, make-up tutorials, short videos, filters, fashion, avatars, pet celebrities,
+                and consumer products.
+              </p>
+
+              <h3 id="wiki-sec-3-1" class="wiki-heading">#KrisJennerPFP Trend</h3>
+              <p>
+                The #KrisJennerPFP Trend became visible in Chinese social media contexts around 2026. In this trend,
+                users edited images of Kris Jenner and used them as social media profile pictures. These edits often
+                included <a class="wiki-inline-link" href="#" data-preview-index="60">visual symbols related to wealth</a>, such as money, skyscrapers, wine glasses, luxury restaurants,
+                offices, lawyers, financial workers, bosses, and successful professionals. In many discussions, users
+                connected this practice to manifestation, imagining that repeated exposure to Kris Jenner&rsquo;s image
+                could attract wealth, career opportunities, or a more desirable lifestyle.
+              </p>
+              <p>
+                As the trend spread, more users began to use <a class="wiki-inline-link" href="#" data-preview-index="29">similar Kris Jenner profile pictures</a>. In group chats, comment
+                sections, and social media feeds, multiple edited Kris Jenner avatars could appear on the same screen at
+                once. Although each avatar might have a different background or wealth symbol, the repeated face produced
+                a strong visual impression of multiplication. The screen began to look as if many versions of Kris Jenner
+                were communicating with each other.
+              </p>
+              <p>
+                This trend also extended into <a class="wiki-inline-link" href="#" data-preview-index="30">bodily practice</a>. Users began to upload Kris Jenner <a class="wiki-inline-link" href="#" data-preview-index="31">make-up videos</a>,
+                imitating her hairstyle, facial expression, pose, and photographic style. In this process, Kris Jenner
+                ceased to be only an image used as a profile picture. She became a bodily template that could be dressed,
+                performed, and temporarily inhabited.
+              </p>
+
+              <h3 id="wiki-sec-3-2" class="wiki-heading"><a class="wiki-inline-link" href="#" data-preview-index="32">#Krissed</a></h3>
+              <p>
+                #Krissed began as a form of online prank. The meme usually interrupts a normal video, image, or narrative
+                by suddenly inserting Kris Jenner dancing in a green sequin dress, often accompanied by the phrase
+                &ldquo;You&rsquo;ve been Krissed.&rdquo; Know Your Meme traces the visual source of the green dress clip
+                to an amateur Kardashian family music video posted by Kendall and Kylie Jenner, in which Kris Jenner
+                appears dancing and lipsyncing in the dress (Know Your Meme 2022a).
+              </p>
+              <p>
+                As the meme spread, the green sequin dress gradually separated from its original context and became a
+                highly recognizable visual sign. Users produced reaction images, edited clips, screenshots, and reposted
+                versions of the same visual structure. The meme then moved from screen-based circulation into physical
+                life. Many users began to imitate the Kris Jenner look. Participants often wore short black wigs,
+                oversized sunglasses, and green sequin dresses. At first, these imitations appeared as single-person photos
+                or short videos. Later, they developed into <a class="wiki-inline-link" href="#" data-preview-index="33">group performances</a> in which several people appeared together
+                in matching costumes.
+              </p>
+              <p>
+                In these images, the repetition of clothing, hair, sunglasses, and facial expression creates an almost
+                <a class="wiki-inline-link" href="#" data-preview-index="34">cloned visual effect</a>. Several &ldquo;Kris Jenners&rdquo; appear in the same frame, turning the meme into a
+                scene of replicated bodies. The photos are then screenshotted, collaged, and reposted, returning the
+                bodily imitation back into the digital loop.
+              </p>
+
+              <h2 id="wiki-sec-4" class="wiki-heading">Attention, Prestige, and Self-Commodification</h2>
+              <p>
+                The Kardashians are such a template. Through reality television, tabloid coverage, social media exposure,
+                beauty branding, and <a class="wiki-inline-link" href="#" data-preview-index="35">celebrity circulation</a>, their faces, voices, bodies, gestures, and lifestyles have been
+                repeatedly recorded and redistributed. This media saturation makes them easy to recognize and easy to
+                imitate. Their public image becomes a collection of fragments that can be clipped, quoted, performed, and
+                remixed.
+              </p>
+              <p>
+                The spread of memes depends not only on content, but also on prestige and attention. People are more likely
+                to <a class="wiki-inline-link" href="#" data-preview-index="36">notice, imitate, and share figures</a> that already possess visibility or symbolic status. A person or
+                object that is socially recognizable is therefore more likely to become a reproducible cultural template.
+              </p>
+              <p>
+                This mechanism is visible in creators such as TikTok creators Angelo and Lexi. Their Kardashian-related
+                videos do not aim for exact professional reproduction. Instead, they often use exaggerated mannerisms and
+                comic timing to reenact Kardashian meme fragments. Even when gender, age, body type, <a class="wiki-inline-link" href="#" data-preview-index="37">long nails</a>, or appearance does not
+                match the Kardashian family members, viewers can still identify the source through voice, timing,
+                gestures, and dialogue. In online culture, amateur aesthetics can function as proof of immediacy,
+                authenticity, enthusiasm, and participation (VV.AA. 2014, 9).
+              </p>
+              <p>
+                The meme therefore survives not through physical identity, but through recognizable performance codes. This
+                phenomenon is closely connected to the <a class="wiki-inline-link" href="#" data-preview-index="38">attention economy of social media platforms</a>. For online creators,
+                remaking a popular meme is often more efficient than inventing a completely new narrative. Once one user
+                gains attention through a meme reenactment, other users can see the possibility of success and join the
+                chain of imitation. The meme becomes not an image being shared, but an entrance point for visibility.
+              </p>
+              <p>
+                From the perspective of Cyberclone, platforms function like <a class="wiki-inline-link" href="#" data-preview-index="39">a cultural cloning chamber</a>. The more attention
+                a meme receives, the more imitations and variations it generates. In order to gain similar attention,
+                creators insert themselves into the meme&rsquo;s production chain. They imitate successful formats,
+                gestures, voices, and editing styles. Through this repeated process, they gradually become Cyberclones of
+                the meme.
+              </p>
+
+              <h2 id="wiki-sec-5" class="wiki-heading">The Embodiment of Meme</h2>
+
+              <h3 id="wiki-sec-5-1" class="wiki-heading">Virtuality and Reality</h3>
+              <p>
+                Memes are produced and circulated through virtual networks, but the imitations they generate connect
+                digital images to real bodies. A meme may begin as an image or a video file, yet its reproduction often
+                requires bodies to perform posture, expression, voice, rhythm, costume, make-up, and gesture. When a user
+                imitates a meme image or video, the body must be adjusted. The angle of the head, the bend of the back, the
+                placement of the hands, the movement of the mouth, the direction of the eyes, and the style of clothing or
+                make-up may all become part of the imitation. This is especially important in video memes, because video
+                memes contain not only visual composition but also rhythm, voice, pauses, and bodily timing.
+              </p>
+              <p>
+                A video that enters the internet can detach from its original context and be renamed, clipped, imitated,
+                redistributed, and misunderstood. In <em>Eternal September</em>, Matthias Fritsch describes how a video
+                that goes viral can leave the author&rsquo;s control, circulate under different titles, and become
+                meaningful through community reactions and reinterpretations (Fritsch in VV.AA. 2014, 26&ndash;29). This
+                logic is essential for understanding Kardashian memes: their meaning is not fixed by the original television
+                scene, but regenerated through imitation.
+              </p>
+
+              <h3 id="wiki-sec-5-2" class="wiki-heading">#<a class="wiki-inline-link" href="#" data-preview-index="40">If You Know How I Feel, Why Would You Say That</a></h3>
+              <p>
+                This meme comes from a crying scene featuring Kim Kardashian. In the scene, Kim says, &ldquo;If you know how
+                I feel, why would you say that.&rdquo; The scene later separated from its original television context and
+                became a reaction image, GIF, and short-video reference. <em>Teen Vogue</em> describes the &ldquo;crying Kim
+                Kardashian&rdquo; face as a widely recognized meme that has been reproduced through make-up and visual art.
+              </p>
+              <p>
+                In this case, each imitation video includes acts of watching, learning, rehearsing, and filming. Users study
+                Kim Kardashian&rsquo;s <a class="wiki-inline-link" href="#" data-preview-index="41">facial expression</a>, the angle of the eyebrows, the direction of the eyes, the movement
+                of the lips, the rhythm of the voice, and the gesture of wiping away tears. Some imitators may also use wigs,
+                make-up, clothing, and other styling elements to approach her appearance and reproduce the original scene.
+                They then film and upload the result back to the platform.
+              </p>
+              <p>
+                The meme therefore does not spread only as a video file. It spreads as a repeated emotional script. A
+                specific way of crying, speaking, pausing, and looking becomes transferable between bodies. The meme is no
+                longer only Kim Kardashian&rsquo;s face; it becomes a reproducible structure of emotional performance.
+              </p>
+
+              <h3 id="wiki-sec-5-3" class="wiki-heading">#Never Go Against the Family</h3>
+              <p>
+                It is associated with a line spoken by Khlo&eacute; Kardashian and Kris Jenner in the trailer for
+                Hulu&rsquo;s <em>The Kardashians</em>, and it became a TikTok sound used in ironic lip-dub videos (Know Your
+                Meme 2022b). In Kardashian-related meme culture, the phrase also connects to the family&rsquo;s long-standing
+                public image as a coordinated family unit about <a class="wiki-inline-link" href="#" data-preview-index="42">power</a>, loyalty, and collective defensiveness.
+              </p>
+              <p>
+                Unlike memes centered on one individual expression, this meme is concerned with how a group appears
+                together. It reproduces not only a face or gesture, but a structure of collective presence. Users imitate the
+                Kardashian family&rsquo;s coordinated visual language through group posing, shared color schemes,
+                <a class="wiki-inline-link" href="#" data-preview-index="43">synchronized movement</a>, dramatic entrance, and direct gazes toward the camera. Participants organize
+                themselves in the frame, adjust distance and hierarchy, and perform a collective image.
+              </p>
+              <p>
+                In this cloned bodily process, what is repeated is not one fixed pose. It is a visual structure of family
+                unity and bodily power. At this point, embodiment is not only individual imitation, but also a collective
+                process. Users repeat the same meme through different bodies, voices, cameras, and situations, turning
+                themselves from passive viewers into active producers (VV.AA. 2014, 8&ndash;9). Each version is slightly
+                different, but together they form a recognizable <a class="wiki-inline-link" href="#" data-preview-index="44">collective body</a> of the meme.
+              </p>
+
+              <h3 id="wiki-sec-5-4" class="wiki-heading">#You&rsquo;re Doing Amazing, Sweetie</h3>
+              <p>
+                It comes from a 2007 episode of <em>Keeping Up with the Kardashians</em>, in which Kris Jenner photographs and
+                encourages Kim Kardashian during a Playboy shoot (Dictionary.com 2018). Online, the phrase became a
+                catchphrase and reaction image used to <a class="wiki-inline-link" href="#" data-preview-index="45">express exaggerated encouragement</a> (Know Your Meme 2016).
+              </p>
+              <p>
+                This meme is not only linguistic. It also contains <a class="wiki-inline-link" href="#" data-preview-index="46">a media posture</a>. Kris Jenner&rsquo;s act of holding a
+                camera, approaching the subject, watching intensely, and recording the moment becomes part of the meme&rsquo;s
+                structure. When users repeat the phrase while filming a friend, pet, family member, or ordinary daily action,
+                they also imitate a way of looking and recording others. The meme transforms encouragement into a
+                performative act of mediated attention.
+              </p>
+
+              <h3 id="wiki-sec-5-5" class="wiki-heading"><a class="wiki-inline-link" href="#" data-preview-index="47">Imitative Inertia</a></h3>
+              <figure class="wiki-thumb wiki-thumb-archive">
+                <div class="wiki-thumb-inner">
+                  <a
+                    class="wiki-thumb-image-link"
+                    href="#archive"
+                    data-section-link="archive"
+                    aria-label="Open Cyberclone Archive"
+                  >
+                    <img src="/images/book-preview.gif" alt="Cyberclone Archive" width="220" height="165" draggable="false" />
+                  </a>
+                  <figcaption class="wiki-thumb-caption">
+                    Cyberclone Archive stores all Kardashian family meme imagery from 2007 to 2026.
+                  </figcaption>
+                </div>
+              </figure>
+              <p>
+                Many classic meme sounds, gestures, and phrases detach from their original scenes and enter everyday life.
+                Kardashianintonation, raspy tones, exaggerated pauses, dragged-out vocal habits, and performative gestures can
+                appear in joking conversations between friends. In these situations, users are drawing a memetic reservoir
+                of speech and dramatic expression without always consciously reenacting a complete scene.
+              </p>
+              <p>
+                &ldquo;You&rsquo;re Doing Amazing, Sweetie&rdquo; is a useful example. On the surface, it is a phrase of
+                encouragement. In actual use, however, it often carries the distance and irony produced by meme culture. A
+                situation that might have required <a class="wiki-inline-link" href="#" data-preview-index="48">a specific emotional response can be replaced</a> by ready-made internet
+                phrases.
+              </p>
+
+              <h2 id="wiki-sec-6" class="wiki-heading">Identity and Participatory Popularity</h2>
+
+              <figure class="wiki-thumb wiki-thumb-left">
+                <div class="wiki-thumb-inner">
+                  <a
+                    class="wiki-thumb-image-link"
+                    href="#test"
+                    data-section-link="test"
+                    aria-label="Open Cyberclone Test"
+                  >
+                    <img src="/images/cyberclone-07.gif" alt="Cyberclone Test" width="220" height="165" draggable="false" />
+                  </a>
+                  <figcaption class="wiki-thumb-caption">
+                    Cyberclone Test measures the degree to which users are influenced by memes.
+                  </figcaption>
+                </div>
+              </figure>
+
+              <h3 id="wiki-sec-6-1" class="wiki-heading">Participatory Popularity</h3>
+              <p>
+                Cyberclone is a participatory form of identity replication. Users often imitate memes not because they are
+                deeply committed to the content itself, but because participation in <a class="wiki-inline-link" href="#" data-preview-index="49">the trend</a> becomes a form of social
+                presence. By gesture, pose, repeating a shared body feature, or phrase, the user proves to a wider audience
+                that they belong to a particular online moment.
+              </p>
+              <p>
+                When bodily imitation becomes a mass trend, it also produces new forms of markets for tools, cosmetics,
+                clothing, filters, shaping devices, and even medical or cosmetic services. In this way, imitation and
+                consumption become bound together. The desire to repeat a popular bodily style can generate entire commercial
+                ecosystems.
+              </p>
+
+              <h3 id="wiki-sec-6-2" class="wiki-heading">#Kylie Jenner Lip Challenge</h3>
+              <p>
+                Participants used bottles, cups, or other suction-based objects to temporarily swell their lips in order to
+                imitate Kylie Jenner&rsquo;s signature <a class="wiki-inline-link" href="#" data-preview-index="50">lip shape</a>. It became a viral trend in 2015. Medical professionals
+                warned that this practice could cause bruising, blistering, swelling, infection, and tissue damage (Global
+                News 2015; ABC News 2015).
+              </p>
+              <p>
+                The challenge is important for Cyberclone because the body becomes the surface on which the meme is
+                performed. Most participants were not necessarily committed to mainstream <a class="wiki-inline-link" href="#" data-preview-index="52">beauty standards</a> or the lip shape as a permanent aesthetic ideal.
+                Instead, the temporary swelling functioned as proof of participation. Once the challenge became visible, more
+                users joined not only because they wanted to imitate Kylie Jenner, but because participation itself became
+                part of the viral event. The act of trying the challenge, filming the result, and uploading it became a way
+                to show that one was aware of the trend online. In this sense, the challenge was less about permanently
+                changing the body than about briefly following, performing, and displaying <a class="wiki-inline-link" href="#" data-preview-index="51">a shared internet moment</a>.
+              </p>
+              <p>
+                Even if many users treated the challenge as a joke or temporary experiment, the repeated circulation of swollen
+                lips still reinforced the visibility of a specific facial feature. In this sense, the meme did not simply imitate
+                an existing aesthetic; it also helped normalize and amplify that aesthetic through mass participation.
+              </p>
+              <p>
+                As the trend continued, the tools used in imitation also changed. At first, many participants used ordinary
+                objects such as shot glasses, small cups, or bottles. As the challenge became more visible, organized and
+                <a class="wiki-inline-link" href="#" data-preview-index="53">product-oriented</a> solutions emerged. Users were no longer only following the challenge casually; some began to
+                seek a clearer, more controlled, or more dramatic result for the camera. This opened the challenge to <a class="wiki-inline-link" href="#" data-preview-index="54">a small
+                consumer logic</a>. Suction-based lip plumping products offered a more &ldquo;professional&rdquo; version of the
+                same bodily imitation. Instead of simply using a random cup, users could purchase devices designed
+                specifically to produce fuller lips. The meme did not only create a visual trend; it also helped turn a
+                temporary bodily performance into a market for lip-plumping devices and beauty products (303 Magazine 2015).
+              </p>
+
+              <h3 id="wiki-sec-6-3" class="wiki-heading">#Kardashian-Style Body</h3>
+              <p>
+                Kim Kardashian&rsquo;s body image can be understood as a meme, although it is not a meme in the form of a
+                single captioned image or reaction GIF. What circulates is a recognizable bodily template: a narrow waist,
+                emphasized hips, rounded buttocks, smooth skin, and highly staged photographic pose. Because this bodily
+                template has become so recognizable and repeatedly circulated, many people begin to imitate it.
+              </p>
+              <p>
+                Unlike many internet memes that can be reproduced through text, cropping, or reenactment, the Kardashian-style
+                <a class="wiki-inline-link" href="#" data-preview-index="55">requires material assistance</a>. Users may rely on shapewear, <a class="wiki-inline-link" href="#" data-preview-index="56">padded underwear</a>, butt-lifting leggings, and
+                contour clothing. At the same time, this meme may also reshape aesthetic desire itself, first through
+                photo-editing apps and filters, then through dieting, gym routines, and surgery.
+              </p>
+              <p>
+                This process turns bodily imitation into a consumer system. Products described through terms such as
+                &ldquo;<a class="wiki-inline-link" href="#" data-preview-index="61">Kardashian butt,</a>&rdquo; &ldquo;Kardashian-style body,&rdquo; &ldquo;BBL effect,&rdquo; or
+                &ldquo;hourglass figure&rdquo; translate the meme into purchasable objects and services. The goal is not only
+                beauty, but proximity to a public memetic form. Through these products, the Kardashian-style body moves from
+                celebrity image to meme, from meme to bodily desire, and from bodily desire to consumer practice.
+              </p>
+
+              <h2 id="wiki-sec-7" class="wiki-heading"><a class="wiki-inline-link" href="#" data-preview-index="57">Supermeme</a> and Merchandise</h2>
+
+              <h3 id="wiki-sec-7-1" class="wiki-heading">Supermeme</h3>
+              <p>
+                This essay uses the term supermeme to describe a meme that exceeds short-term online circulation and enters
+                broader systems of advertising, merchandise, physical display, and consumer culture. This term is used here as
+                an analytical extension of Shifman&rsquo;s definition of internet memes as groups of digital items that are
+                circulated, imitated, and transformed by multiple users (Shifman 2014, 41&ndash;42).
+              </p>
+              <p>
+                A supermeme is not only shared online; it becomes a format for objects, products, and everyday performances.
+                Supermemes move across media and enter consumer culture. They can become peripheral products such as stickers,
+                T-shirts, mugs, and other exaggerated objects or public surfaces. Merchandise encourages people to purchase,
+                collect, display, and repost memetic imagery offline. At the same time, supermemes can also be digitally
+                applied to buses, airplanes, billboards, and <a class="wiki-inline-link" href="#" data-preview-index="63">advertising images</a>.
+              </p>
+
+              <h3 id="wiki-sec-7-2" class="wiki-heading">#Kim Kardashian Crying</h3>
+              <p>
+                The Kim Kardashian crying meme has been widely circulated as a reaction image and has also been reproduced in
+                commercial and material forms. Online meme generators and <a class="wiki-inline-link" href="#" data-preview-index="58">image-sharing platforms</a> make it easy to reuse the
+                crying Kim template, while merchandise platforms show how the image can be turned into stickers and other
+                <a class="wiki-inline-link" href="#" data-preview-index="62">products</a> (Imgflip n.d.; Etsy n.d.).
+              </p>
+              <p>
+                This process reveals another layer of Cyberclone. What is copied is not only Kim Kardashian&rsquo;s crying
+                face, but also a way of using that face. Users cut it out, paste it onto unrelated scenes, print it on
+                products, buy similar merchandise, photograph the object, and upload the photograph again. The image moves
+                from screen to commodity and then back to screen.
+              </p>
+              <p>
+                In this loop, the consumer is not only a buyer. The consumer becomes an executor of memetic reproduction. Each
+                purchase, photograph, and upload creates another version of the same image template. The meme gains a material
+                body through merchandise, and the merchandise becomes another path for the meme to reproduce.
+              </p>
+
+              <h2 id="wiki-sec-8" class="wiki-heading">Conclusion</h2>
+              <p>
+                Cyberclone is not the replication of a single meme image. It is a viral cultural system produced through
+                viewing, sharing, editing, reenactment, imitation, consumption, embodiment, and redistribution. In this
+                system, memes move from digital files into language, posture, identity, make-up, filters, commodities, and
+                bodily modification.
+              </p>
+              <p>
+                The Kardashian-related memes discussed in this essay show how a meme can become more than an online joke. A meme
+                can become a profile picture, a group costume, a performance script, a vocal style, a body ideal, a beauty
+                filter, or a commercial object. Each version remains different, but each remains connected to the same
+                cultural template.
+              </p>
+              <p>
+                A Cyberclone is therefore not an identical copy. It is a living variant shaped by a repeated memetic form.
+                Cyberclone describes the moment when users no longer simply circulate memes, but become the bodies, voices,
+                images, and consumers through which memes continue to live.
+              </p>
+
+              <h3 id="wiki-sec-8-refs" class="wiki-heading"><a class="wiki-inline-link" href="#" data-preview-index="59">References</a></h3>
+              <ol class="wiki-references">
+                <li>Dawkins, Richard. 1976. <em>The Selfish Gene</em>. Oxford: Oxford University Press.</li>
+                <li>Shifman, Limor. 2014. <em>Memes in Digital Culture</em>. Cambridge, MA: MIT Press.</li>
+                <li>Tarde, Gabriel. 1903. <em>The Laws of Imitation</em>. Translated by Elsie Clews Parsons. New York: Henry Holt and Company.</li>
+                <li>VV.AA. 2014. <em>Eternal September: The Rise of Amateur Culture</em>. Edited by Domenico Quaranta. Brescia and Ljubljana: Link Editions and Aksioma.</li>
+                <li><em>Buffalo Zine</em>. 2021. Issue Buffalo Viral.</li>
+                <li>Dictionary.com. 2018. &ldquo;You&rsquo;re Doing Amazing, Sweetie.&rdquo;</li>
+                <li>Global News. 2015. &ldquo;Kylie Jenner Lip Challenge Dangerous.&rdquo;</li>
+                <li>ABC News. 2015. &ldquo;Kylie Jenner Lip Challenge Poses Serious Health Risks.&rdquo;</li>
+                <li>303 Magazine. 2015. &ldquo;The Commercial Aftermath of the Kylie Jenner Lip Challenge.&rdquo;</li>
+                <li>Know Your Meme. 2016. &ldquo;You&rsquo;re Doing Amazing, Sweetie.&rdquo;</li>
+                <li>Know Your Meme. 2022a. &ldquo;Krissed.&rdquo;</li>
+                <li>Know Your Meme. 2022b. &ldquo;Never Go Against the Family.&rdquo;</li>
+                <li>Norman, Mark, Julian Finn, and Tom Tregenza. 2001. &ldquo;Dynamic Mimicry in an Octopus.&rdquo; <em>Proceedings of the Royal Society B</em>.</li>
+                <li>Rainie, Lee, and Barry Wellman. 2012. <em>Networked: The New Social Operating System</em>. MIT Press.</li>
+                <li>National Museums Scotland. n.d. Dolly the Sheep Archive.</li>
+                <li>Imgflip. n.d. Meme Template Library.</li>
+                <li>Etsy. n.d. Meme Merchandise Creator Guidelines.</li>
+              </ol>
+            </article>
+          </main>
+
+          <aside class="wiki-vector-tools" aria-label="Site navigation">
+            <div class="wiki-tools-panel">
+              <h2 class="wiki-tools-title">Navigation</h2>
+              <ul class="wiki-nav-list">
+                <li><a class="wiki-nav-link" href="#wiki-sec-1">Concept overview</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-2">Meme definition &amp; cultural transmission</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-2">Imitation, mass imitation and cultural clone metaphor</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-3">The Kardashians as supermeme case base</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-3">Memes beyond digital imagery</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-4">Attention economy &amp; self-commodification</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-5">Virtuality, reality and meme embodiment</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-6">Identity, participatory popularity &amp; bodily meme trends</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-7">Supermeme and meme merchandise</a></li>
+                <li><a class="wiki-nav-link" href="#wiki-sec-8">Conclusion &amp; supplementary book statement</a></li>
+              </ul>
+
+              <h2 class="wiki-tools-title">Appearance</h2>
+              <div class="wiki-appearance-group">
+                <p class="wiki-appearance-label">Text</p>
+                <div class="wiki-appearance-options">
+                  <button type="button" class="wiki-appearance-btn">Small</button>
+                  <button type="button" class="wiki-appearance-btn wiki-appearance-btn--active">Standard</button>
+                  <button type="button" class="wiki-appearance-btn">Large</button>
+                </div>
+              </div>
+              <div class="wiki-appearance-group">
+                <p class="wiki-appearance-label">Width</p>
+                <div class="wiki-appearance-options">
+                  <button type="button" class="wiki-appearance-btn wiki-appearance-btn--active">Standard</button>
+                  <button type="button" class="wiki-appearance-btn">Wide</button>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+        <nav class="wiki-mobile-browser-bar" aria-label="Mobile browser tools">
+          <button type="button" class="wiki-browser-btn" aria-label="Back">‹</button>
+          <button type="button" class="wiki-browser-btn wiki-browser-btn--disabled" aria-label="Forward" disabled>›</button>
+          <button type="button" class="wiki-browser-btn" aria-label="Share">↑</button>
+          <button type="button" class="wiki-browser-btn wiki-browser-btn--plus" aria-label="New tab">+</button>
+          <button type="button" class="wiki-browser-btn wiki-browser-btn--tabs" aria-label="Tabs">19</button>
+          <button type="button" class="wiki-browser-btn" aria-label="More">⋯</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 3D 实验室区域，由 script.js 渲染到 canvas 中 -->
+    <section id="lab" class="section lab-section">
+      <canvas id="labCanvas"></canvas>
+
+      <!-- 方向按钮，用来切换或聚焦不同的实验室物件 -->
+      <button class="lab-arrow arrow-top" data-target="Microscope" type="button">▲</button>
+      <button class="lab-arrow arrow-right" data-target="Phone" type="button">▶</button>
+      <button class="lab-arrow arrow-left" data-target="CloneCabinet" type="button">◀</button>
+      <button class="lab-arrow arrow-bottom" data-target="SpecimenBox" type="button">▼</button>
+    </section>
+
+    <!-- Statement 区域，用来放置带物理效果的文字或元素 -->
+    <section id="statement" class="section statement-section">
+      <div id="statementPhysicsStage" class="statement-physics-stage"></div>
+    </section>
+
+    <!-- Archive 档案区域，用来浏览和上传图片 / 视频样本 -->
+    <section id="archive" class="section archive-section">
+      <div id="archiveGrid" class="archive-grid"></div>
+
+      <!-- 本地上传控件：可见的 label 会触发隐藏的文件输入框 -->
+      <div class="archive-upload-panel">
+        <label class="archive-upload-button" for="archiveFileInput">UPLOAD IMAGE</label>
+        <input
+          id="archiveFileInput"
+          class="archive-file-input"
+          type="file"
+          accept="image/*,video/*"
+          multiple
+        />
+      </div>
+
+      <!-- 预览浮层，用来全屏查看选中的档案媒体 -->
+      <div id="archivePreviewOverlay" class="archive-preview-overlay hidden">
+        <button id="archivePreviewClose" class="archive-preview-close" type="button">×</button>
+        <div id="archivePreviewContent" class="archive-preview-content"></div>
+      </div>
+    </section>
+
+    <!-- 互动 Cyberclone 测试和样本场域区域 -->
+    <section id="test" class="section cyberfling-section">
+      <!-- 悬浮信息面板，查看场域样本时显示说明 -->
+      <div id="cybercloneInfoPanel" class="cyberclone-info-panel hidden">
+        <p>cyberclone field</p>
+        <p>hover over a specimen</p>
+      </div>
+
+      <!-- 控制已释放样本的阵型显示 -->
+      <button id="formationToggleButton" class="formation-toggle-button hidden" type="button">
+        FORMATION
+      </button>
+
+      <!-- 全程广告弹窗测试（开场 + 5 题 + 结果 + 书册 = 8 条广告） -->
+      <div id="cybercloneTestPanel" class="cyberclone-test-panel cyberclone-test-panel--ad-active">
+        <div id="cybercloneAdOverlay" class="cyberclone-ad-overlay hidden" aria-hidden="true">
+          <p id="cybercloneAdLabel" class="cyberclone-ad-label">Advertisement</p>
+
+          <div
+            id="cybercloneAdPopup"
+            class="cyberclone-ad-popup cyberclone-ad-popup--layout-intro"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cybercloneAdHeadline"
+          >
+            <span class="cyberclone-ad-badge">AD</span>
+            <span class="cyberclone-ad-choices" aria-hidden="true"></span>
+            <button
+              type="button"
+              id="cybercloneAdClose"
+              class="cyberclone-ad-close"
+              aria-label="Close advertisement"
+            >×</button>
+
+            <nav id="cybercloneAdNav" class="cyberclone-ad-nav" aria-label="Advertisement navigation">
+              <button
+                id="cybercloneAdNavPrev"
+                class="cyberclone-ad-nav-btn"
+                type="button"
+                aria-label="Previous advertisement"
+              >‹</button>
+              <button
+                id="cybercloneAdNavNext"
+                class="cyberclone-ad-nav-btn"
+                type="button"
+                aria-label="Next advertisement"
+              >›</button>
+            </nav>
+
+            <div class="cyberclone-ad-main">
+              <div id="cybercloneAdStandardLayout" class="cyberclone-ad-standard-layout">
+                <div class="cyberclone-ad-content">
+                  <p id="cybercloneAdMeta" class="cyberclone-ad-meta"></p>
+                  <p id="cybercloneAdHeadline" class="cyberclone-ad-headline"></p>
+                  <p id="cybercloneAdSubtext" class="cyberclone-ad-subtext"></p>
+                </div>
+
+                <div id="cybercloneAdVisual" class="cyberclone-ad-visual hidden" aria-hidden="true">
+                  <img
+                    id="cybercloneAdVisualImage"
+                    class="cyberclone-ad-visual-image hidden"
+                    src=""
+                    alt=""
+                    draggable="false"
+                  />
+                  <span class="cyberclone-ad-visual-tag hidden" id="cybercloneAdVisualTag"></span>
+                  <p class="cyberclone-ad-visual-caption hidden" id="cybercloneAdVisualCaption"></p>
+                </div>
+              </div>
+
+              <div id="cybercloneAdResultLayout" class="cyberclone-ad-result-layout hidden" aria-hidden="true">
+                <div class="cyberclone-ad-result-booklet">
+                  <div class="cyberclone-ad-result-hero">
+                    <div id="cybercloneResultSpecimen" class="cyberclone-result-specimen hidden">
+                      <img id="cybercloneResultImage" src="" alt="Cyberclone Specimen" draggable="false" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cyberclone-ad-result-side">
+                  <p id="cybercloneAdResultGreeting" class="cyberclone-ad-result-greeting hidden"></p>
+                  <p id="cybercloneAdResultLevel" class="cyberclone-ad-result-level hidden"></p>
+                  <p id="cybercloneResultText" class="cyberclone-ad-result-footnote hidden"></p>
+
+                  <div id="cybercloneAdActionsResult" class="cyberclone-ad-actions cyberclone-ad-actions--result hidden">
+                    <button
+                      id="downloadCyberclonePdf"
+                      class="cyberclone-ad-answer-button"
+                      type="button"
+                    >View Your Clone Booklet</button>
+                    <button
+                      id="releaseCybercloneField"
+                      class="cyberclone-ad-answer-button"
+                      type="button"
+                    >Release Into Field</button>
+                    <button
+                      id="restartCybercloneTest"
+                      class="cyberclone-ad-answer-button"
+                      type="button"
+                    >Retake Test</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="cybercloneAdBookLayout" class="cyberclone-ad-book-layout hidden" aria-hidden="true">
+                <img
+                  id="cybercloneAdBookPreview"
+                  class="cyberclone-ad-book-preview"
+                  src=""
+                  alt="Clone booklet preview"
+                  draggable="false"
+                />
+              </div>
+            </div>
+
+            <div id="cybercloneAdIntroExtra" class="cyberclone-ad-intro-extra">
+              <label class="cyberclone-ad-codename-label" for="cybercloneCodenameInput">
+                Enter your codename
+              </label>
+              <input
+                id="cybercloneCodenameInput"
+                class="cyberclone-ad-codename-input"
+                type="text"
+                maxlength="24"
+                placeholder="anonymous"
+                autocomplete="off"
+              />
+            </div>
+
+            <button type="button" class="cyberclone-ad-arrow" tabindex="-1" aria-hidden="true">
+              <span aria-hidden="true">→</span>
+            </button>
+
+            <div id="cybercloneAdActionsIntro" class="cyberclone-ad-actions">
+              <button
+                id="startCybercloneTest"
+                class="cyberclone-ad-answer-button"
+                type="button"
+              >Start Test</button>
+            </div>
+
+            <div id="cybercloneAdActionsQuestion" class="cyberclone-ad-actions hidden">
+              <button
+                id="cybercloneYesButton"
+                class="cyberclone-ad-answer-button"
+                type="button"
+              >Yes</button>
+              <button
+                id="cybercloneNoButton"
+                class="cyberclone-ad-answer-button"
+                type="button"
+              >No</button>
+            </div>
+
+            <p id="cybercloneAdCloseHint" class="cyberclone-ad-close-hint hidden" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 已释放 Cyberclone 样本出现的容器 -->
+      <div id="cyberflingScene" class="cyberfling-scene field-hidden"></div>
+    </section>
+
+    <!-- 维基式媒体查看器（从首页缩略图进入 lab / archive / test 时显示） -->
+    <div id="wikiMediaViewer" class="wiki-media-viewer hidden" aria-hidden="true">
+      <div class="wiki-media-viewer-shade wiki-media-viewer-shade--left" aria-hidden="true"></div>
+      <div class="wiki-media-viewer-shade wiki-media-viewer-shade--right" aria-hidden="true"></div>
+      <div class="wiki-media-viewer-shade wiki-media-viewer-shade--top" aria-hidden="true"></div>
+      <div class="wiki-media-viewer-shade wiki-media-viewer-shade--bottom" aria-hidden="true"></div>
+
+      <div class="wiki-media-viewer-topbar">
+        <span class="wiki-media-viewer-counter">1 / 3</span>
+        <button type="button" class="wiki-media-viewer-close" aria-label="Close viewer">×</button>
+      </div>
+
+      <button type="button" class="wiki-media-viewer-nav wiki-media-viewer-nav--prev" aria-label="Previous">‹</button>
+      <button type="button" class="wiki-media-viewer-nav wiki-media-viewer-nav--next" aria-label="Next">›</button>
+
+      <div class="wiki-media-viewer-metadata">
+        <div class="wiki-media-viewer-metadata-primary">
+          <h2 class="wiki-media-viewer-title"></h2>
+          <button type="button" class="wiki-media-viewer-details">More details</button>
+        </div>
+        <div class="wiki-media-viewer-metadata-secondary">
+          <p class="wiki-media-viewer-attribution"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 浮动 UI：Cyclopedia 右上角 -->
+    <div class="site-ui-float site-ui-float--top-right">
+      <button id="homeRecallClones" class="site-ui-chip site-ui-chip-btn" type="button">
+        Recall clones
+      </button>
+    </div>
+
+    <!-- 浮动 UI：底行（实验室四工具） -->
+    <div class="site-ui-bottom-row">
+      <p class="site-ui-hint site-ui-bottom-hint" aria-hidden="true">Narrow the window</p>
+      <nav class="bottom-dock bottom-tool-dock site-ui-chrome" aria-label="Laboratory tools">
+        <button type="button" class="lab-tool-btn" data-lab-tool="pipette" aria-label="Pipette">
+          <img src="/images/pipette.png" alt="" width="64" height="64" draggable="false" />
+        </button>
+        <button type="button" class="lab-tool-btn" data-lab-tool="petri-dish" aria-label="Petri dish">
+          <img src="/images/petri-dish.png" alt="" width="64" height="64" draggable="false" />
+        </button>
+        <button type="button" class="lab-tool-btn" data-lab-tool="syringe" aria-label="Syringe">
+          <img src="/images/syringe.png" alt="" width="64" height="64" draggable="false" />
+        </button>
+        <button type="button" class="lab-tool-btn" data-lab-tool="tube-rack" aria-label="Tube rack">
+          <img src="/images/tube-rack.png" alt="" width="64" height="64" draggable="false" />
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <div id="wikiLinkPreviewLayer" class="wiki-link-preview-layer" aria-hidden="true">
+    <div id="wikiLinkPreview" class="wiki-link-preview wiki-link-preview--hover hidden">
+      <img alt="" draggable="false" />
+    </div>
+    <div id="wikiLinkPreviewPins" class="wiki-link-preview-pins"></div>
+  </div>
+
+  <!-- 外部库和网站主脚本 -->
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
