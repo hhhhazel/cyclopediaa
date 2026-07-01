@@ -4,6 +4,7 @@ import WikiLogoCarousel from "../components/WikiLogoCarousel";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import CybercloneTest from "../components/Test";
 
 const HEADER_OFFSET_PATHS = ["/field", "/gallery", "/meme"];
 
@@ -54,6 +55,15 @@ export default function RootLayout({ children }) {
         </nav>
       </div>
     </header>
+
+    {showTest && (
+        <CybercloneTest
+          onReleaseIntoField={async(result) => {
+            await releaseIntoField(result);  // Level > 0 写入 Supabase
+            router.push("/field");   
+          }}
+        />
+      )}
         <div className={mainClassName}>{children}</div>
       </body>
     </html>

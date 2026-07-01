@@ -535,7 +535,7 @@ export default function Home() {
   const selectedWordArtVersionIdRef = useRef("");
 
 
-  const [showTest, setShowTest] = useState(false);
+  
 
   function handleWordArtVersionSelect(version) {
     const root = wordArtRootRef.current;
@@ -725,14 +725,7 @@ export default function Home() {
   return (
   <div className="page-shell">
 
-{showTest && (
-        <CybercloneTest
-          onReleaseIntoField={async(result) => {
-            await releaseIntoField(result);  // Level > 0 写入 Supabase
-            router.push("/field");   
-          }}
-        />
-      )}
+
    
 
     {/* 首页：Cyclopedia Vector 三栏版式 */}
