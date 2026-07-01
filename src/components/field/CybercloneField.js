@@ -57,7 +57,8 @@ export default function CybercloneField() {
   }, []);
 
   return (
-    <div className="cyberclone-field-page">
+    <div className="cyberclone-field-page field-env-slate">
+      <div className="cyberclone-field-content">
       {loading && (
         <p className="cyberclone-field-status" aria-live="polite">
           Loading field…
@@ -104,6 +105,7 @@ export default function CybercloneField() {
             />
           );
         })}
+      </div>
       </div>
     </div>
   );

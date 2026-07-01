@@ -10,6 +10,10 @@ import WikiGestureCaptcha from "../components/WikiGestureCaptcha";
 import Link from "next/link";
 import CybercloneTest from "../components/Test";
 
+import { useRouter } from "next/navigation";
+
+import { releaseIntoField } from "../../lib/field/releaseIntoField";
+
 const WORDART_PHRASES_PER_VERSION = 10;
 const WORDART_VERSION_INTERVAL_MS = 1000;
 const MOBILE_WORDART_MAX_WIDTH = 700;
@@ -716,14 +720,16 @@ export default function Home() {
     };
   }, []);
 
+  const router = useRouter();
+
   return (
   <div className="page-shell">
 
 {showTest && (
         <CybercloneTest
-          onReleaseIntoField={(result) => {
-            console.log(result);
-            // 你后面在这里做 Field
+          onReleaseIntoField={async(result) => {
+            await releaseIntoField(result);  // Level > 0 写入 Supabase
+            router.push("/field");   
           }}
         />
       )}
