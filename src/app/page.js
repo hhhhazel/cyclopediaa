@@ -8,6 +8,7 @@ import WikiLabThumbCanvas from "../components/WikiLabThumbCanvas";
 import WikiTocNav from "../components/WikiTocNav";
 import WikiGestureCaptcha from "../components/WikiGestureCaptcha";
 import Link from "next/link";
+import CybercloneTest from "../components/Test";
 
 const WORDART_PHRASES_PER_VERSION = 10;
 const WORDART_VERSION_INTERVAL_MS = 1000;
@@ -529,6 +530,9 @@ export default function Home() {
   const latestWordArtVersionIdRef = useRef("");
   const selectedWordArtVersionIdRef = useRef("");
 
+
+  const [showTest, setShowTest] = useState(false);
+
   function handleWordArtVersionSelect(version) {
     const root = wordArtRootRef.current;
 
@@ -714,6 +718,15 @@ export default function Home() {
 
   return (
   <div className="page-shell">
+
+{showTest && (
+        <CybercloneTest
+          onReleaseIntoField={(result) => {
+            console.log(result);
+            // 你后面在这里做 Field
+          }}
+        />
+      )}
     {/* 全站搜索顶栏：搜索框 + Donate 等（不含 Recall clones） */}
     <header className="site-global-header wiki-vector-header" id="siteGlobalHeader">
       <div className="wiki-vector-header-inner">
@@ -734,7 +747,7 @@ export default function Home() {
         </form>
 
         <nav className="wiki-header-links" aria-label="Personal tools">
-          <a href="#">Donate</a>
+          <a href="#" onClick={() => setShowTest(true)}>Test</a>
           <a href="#">Create account</a>
           <a href="#">Log in</a>
         </nav>
