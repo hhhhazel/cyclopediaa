@@ -1,0 +1,119 @@
+.cyberclone-field-page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ececec 0%, #d8d8d8 100%);
+  }
+  
+  .cyberclone-field-status {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #333333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .cyberclone-field-status--error {
+    color: #a11919;
+  }
+  
+  .cyberfling-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: auto;
+  }
+  
+  .cyberfling-item {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    transition:
+      left 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      top 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .cyberfling-item > .cyberfling-gif {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.18));
+  }
+  
+  .depth-level-1 {
+    width: 52px;
+    z-index: 10;
+  }
+  
+  .depth-level-2 {
+    width: 82px;
+    z-index: 15;
+  }
+  
+  .depth-level-3 {
+    width: 120px;
+    z-index: 20;
+  }
+  
+  .depth-level-4 {
+    width: 160px;
+    z-index: 25;
+  }
+  
+  .depth-level-5 {
+    width: 215px;
+    z-index: 30;
+  }
+  
+  .cyberclone-info-panel {
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    z-index: 160;
+    min-width: 240px;
+    max-width: 360px;
+    padding: 12px 14px;
+    pointer-events: none;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    text-transform: lowercase;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(224, 228, 236, 0.94) 36%,
+        rgba(145, 154, 170, 0.92) 100%
+      );
+    border: 1px solid rgba(70, 76, 88, 0.5);
+    border-radius: 14px;
+    box-shadow:
+      0 0 8px rgba(32, 255, 92, 0.85),
+      0 10px 22px rgba(0, 0, 0, 0.18);
+  }
+  
+  .cyberclone-info-panel p {
+    margin: 0 0 5px;
+  }
+  
+  .cyberclone-info-panel p:last-child {
+    margin-bottom: 0;
+  }
+  
