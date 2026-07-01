@@ -1,4 +1,5 @@
 :root {
+    --site-ui-inset: clamp(10px, 2vw, 24px);
     --field-grid-rotate-z: 0deg;
     --field-grid-zoom: 1;
     --field-grid-top: 60%;
@@ -213,5 +214,183 @@
   
   .cyberclone-info-panel p:last-child {
     margin-bottom: 0;
+  }
+  .field-studio-bottom-row {
+    position: fixed;
+    left: var(--site-ui-inset);
+    right: var(--site-ui-inset);
+    bottom: var(--site-ui-inset);
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  .field-tool-dock.hidden {
+    display: none;
+  }
+  
+  .lab-tool-dock .lab-tool-btn {
+    min-width: clamp(68px, 13vw, 104px);
+    min-height: clamp(40px, 6.2vw, 50px);
+    padding: clamp(7px, 1.1vw, 10px) clamp(14px, 2.2vw, 22px);
+  }
+  
+  .lab-tool-dock .lab-tool-btn img {
+    width: clamp(28px, 4.2vw, 38px);
+    height: clamp(28px, 4.2vw, 38px);
+  }
+  
+  .field-tool-dock {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 18px);
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .site-candy-btn,
+  .field-candy-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: clamp(68px, 13vw, 104px);
+    min-height: clamp(40px, 6.2vw, 50px);
+    padding: clamp(7px, 1.1vw, 10px) clamp(14px, 2.2vw, 22px);
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(12px, 1.7vw, 15px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.28);
+    line-height: 1;
+    box-shadow:
+      0 4px 0 rgba(0, 0, 0, 0.22),
+      0 7px 16px rgba(0, 0, 0, 0.18),
+      inset 0 2px 0 rgba(255, 255, 255, 0.48),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.14);
+    transition:
+      transform 0.1s ease,
+      box-shadow 0.1s ease,
+      filter 0.1s ease;
+  }
+  
+  .site-candy-btn:hover,
+  .field-candy-btn:hover {
+    filter: brightness(1.05);
+  }
+  
+  .site-candy-btn:active,
+  .site-candy-btn.is-active,
+  .site-candy-btn.active,
+  .field-candy-btn:active,
+  .field-candy-btn.is-active {
+    transform: translateY(3px);
+    box-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.2),
+      0 2px 6px rgba(0, 0, 0, 0.12),
+      inset 0 4px 8px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+  
+  .site-candy-btn--blue,
+  .field-candy-btn--gallery {
+    background: linear-gradient(145deg, #7ec0ff 0%, #2f7bff 50%, #0050d4 100%);
+  }
+  
+  .site-candy-btn--play,
+  .field-candy-btn--play {
+    background: radial-gradient(
+      ellipse 90% 120% at 50% 18%,
+      #8dff7a 0%,
+      #3ecf4a 42%,
+      #1a9b32 100%
+    );
+  }
+  
+  .site-candy-btn--meme,
+  .field-candy-btn--meme {
+    background: linear-gradient(145deg, #ff9ed0 0%, #ff3d9a 52%, #d40078 100%);
+  }
+  
+  .site-candy-btn--field,
+  .field-candy-btn--field {
+    background: linear-gradient(145deg, #fffce0 0%, #ffeb3b 38%, #ffd200 100%);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.32);
+  }
+  
+  .site-candy-btn--compact,
+  .formation-toggle-button.site-candy-btn,
+  .site-ui-float .site-candy-btn {
+    min-width: clamp(88px, 14vw, 132px);
+    min-height: clamp(34px, 5vw, 42px);
+    padding: clamp(6px, 1vw, 9px) clamp(14px, 2.2vw, 20px);
+    font-size: clamp(11px, 1.5vw, 14px);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  
+  .site-candy-btn__label,
+  .field-candy-btn__label {
+    display: inline-block;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  .site-candy-btn__media,
+  .field-candy-btn__media {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  .site-candy-btn__media img,
+  .field-candy-btn__media img {
+    display: block;
+    width: clamp(28px, 4.2vw, 38px);
+    height: clamp(28px, 4.2vw, 38px);
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  }
+  
+  .site-candy-btn__media--play,
+  .field-candy-btn__media--play {
+    font-size: clamp(16px, 2.4vw, 20px);
+    line-height: 1;
+  }
+  
+  .site-candy-btn__media--gallery,
+  .site-candy-btn__media--field,
+  .field-candy-btn__media--gallery,
+  .field-candy-btn__media--field {
+    font-size: clamp(18px, 2.6vw, 22px);
+    line-height: 1;
+  }
+  
+  .field-tool-dock--text .field-candy-btn__label {
+    display: inline-block;
+  }
+  
+  .field-tool-dock--text .field-candy-btn__media {
+    display: none;
+  }
+  
+  .field-tool-dock--media .field-candy-btn__label {
+    display: none;
+  }
+  
+  .field-tool-dock--media .field-candy-btn__media {
+    display: inline-flex;
   }
   

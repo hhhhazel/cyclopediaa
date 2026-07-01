@@ -68,7 +68,7 @@ export default function WikiProfileInfobox() {
       <figure className="wiki-profile-figure">
         <div className="wiki-profile-image-frame ">
           <img
-            src="/Kim_Kardashian_West_2014.jpg"
+            src="/motion/1.png"
             alt="Kim Kardashian"
             width="220"
             height="291"

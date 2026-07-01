@@ -106,6 +106,24 @@ body {
   pointer-events: auto;
 }
 
+.site-main-below-header {
+  padding-top: var(--site-header-height);
+  box-sizing: border-box;
+}
+
+.site-main-below-header .cyberclone-field-page:not(.meme-commons-page) {
+  height: calc(100vh - var(--site-header-height));
+  min-height: calc(100vh - var(--site-header-height));
+}
+
+.site-main-below-header .meme-commons-page {
+  min-height: calc(100vh - var(--site-header-height));
+}
+
+.site-main-below-header .meme-template-overlay {
+  top: var(--site-header-height);
+}
+
 .site-global-header .wiki-vector-header-inner {
   max-width: none;
   width: 100%;

@@ -19,7 +19,7 @@ function pauseGif(img) {
   }
 }
 
-export default function CybercloneItem({ record, onHover }) {
+export default function CybercloneItem({ record, onHover, onOpenMeme }) {
   const asset = getAssetByGifName(record.gif_name);
 
   if (!asset) {
@@ -48,6 +48,10 @@ export default function CybercloneItem({ record, onHover }) {
       onMouseLeave={function () {
         pauseGif(imgEl);
         onHover?.(null);
+      }}
+      onDoubleClick={function (event) {
+        event.preventDefault();
+        onOpenMeme?.(asset.gif);
       }}
     >
       <img

@@ -733,32 +733,7 @@ export default function Home() {
           }}
         />
       )}
-    {/* 全站搜索顶栏：搜索框 + Donate 等（不含 Recall clones） */}
-    <header className="site-global-header wiki-vector-header" id="siteGlobalHeader">
-      <div className="wiki-vector-header-inner">
-        <div className="wiki-logo-slot">
-          <WikiLogoCarousel />
-        </div>
-
-        <form className="wiki-search-form" id="wikiSearchForm" action="#" method="get">
-          <input
-            className="wiki-search-input"
-            id="wikiSearchInput"
-            type="search"
-            name="search"
-            placeholder="Search Cyclopedia"
-            aria-label="Search Cyclopedia"
-          />
-          <button className="wiki-search-button" type="submit">Search</button>
-        </form>
-
-        <nav className="wiki-header-links" aria-label="Personal tools">
-          <a href="#" onClick={() => setShowTest(true)}>Test</a>
-          <a href="#">Create account</a>
-          <a href="#">Log in</a>
-        </nav>
-      </div>
-    </header>
+   
 
     {/* 首页：Cyclopedia Vector 三栏版式 */}
     <section
