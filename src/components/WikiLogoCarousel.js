@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const LOGO_COUNT = 8;
 const LOGO_INTERVAL_MS = 2500;
+export const LOGO_EXPORT_PX = 256;
 
 export default function WikiLogoCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -32,8 +33,8 @@ export default function WikiLogoCarousel() {
             }
             src={"/logo/" + (index + 1) + ".png"}
             alt=""
-            width={200}
-            height={100}
+            width={LOGO_EXPORT_PX}
+            height={LOGO_EXPORT_PX}
             draggable={false}
           />
         );

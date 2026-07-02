@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getAssetByGifName, getLevelClass } from "../../../lib/field/assets";
+import { BOOK_PREVIEW_GIF } from "../../../lib/field/constants";
 import { bindFieldItemDrag } from "../../../lib/field/bindItemDrag";
 
 function playGif(img) {
@@ -20,7 +21,13 @@ function pauseGif(img) {
   }
 }
 
-export default function CybercloneItem({ record, onHover, onOpenMeme }) {
+export default function CybercloneItem({
+  record,
+  onHover,
+  onOpenMeme,
+  isBookOpen,
+  onToggleBook,
+}) {
   const asset = getAssetByGifName(record.gif_name);
 
   if (!asset) {
@@ -30,6 +37,7 @@ export default function CybercloneItem({ record, onHover, onOpenMeme }) {
   const itemRef = useRef(null);
   const didDragRef = useRef(false);
   const [imgEl, setImgEl] = useState(null);
+  const [bookPreviewSrc, setBookPreviewSrc] = useState(null);
   const [position, setPosition] = useState({
     x: Number(record.x) || 50,
     y: Number(record.y) || 50,
@@ -43,6 +51,18 @@ export default function CybercloneItem({ record, onHover, onOpenMeme }) {
       });
     },
     [record.id, record.x, record.y]
+  );
+
+  useEffect(
+    function () {
+      if (isBookOpen) {
+        setBookPreviewSrc(BOOK_PREVIEW_GIF + "?t=" + Date.now());
+        return;
+      }
+
+      setBookPreviewSrc(null);
+    },
+    [isBookOpen]
   );
 
   useEffect(
@@ -73,10 +93,19 @@ export default function CybercloneItem({ record, onHover, onOpenMeme }) {
     [record.id]
   );
 
+  function handleArrowClick(event) {
+    event.stopPropagation();
+    onToggleBook?.();
+  }
+
   return (
     <div
       ref={itemRef}
-      className={"cyberfling-item saved-cyberclone-item " + getLevelClass(record.level)}
+      className={
+        "cyberfling-item saved-cyberclone-item " +
+        getLevelClass(record.level) +
+        (isBookOpen ? " dialog-open" : "")
+      }
       style={{
         left: position.x + "%",
         top: position.y + "%",
@@ -106,6 +135,27 @@ export default function CybercloneItem({ record, onHover, onOpenMeme }) {
         onOpenMeme?.(asset.gif);
       }}
     >
+      <button
+        className="floating-arrow"
+        type="button"
+        aria-label="Show book preview"
+        onClick={handleArrowClick}
+      >
+        ▲
+      </button>
+
+      <div className="arrow-mini-dialog" aria-hidden={isBookOpen ? "false" : "true"}>
+        {bookPreviewSrc ? (
+          <img
+            className="book-preview-gif"
+            src={bookPreviewSrc}
+            data-book-gif={BOOK_PREVIEW_GIF}
+            alt=""
+            draggable={false}
+          />
+        ) : null}
+      </div>
+
       <img
         ref={setImgEl}
         className="cyberfling-gif"

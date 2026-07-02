@@ -10,7 +10,7 @@ export const WIKI_TOC_LINKS = [
 ];
 
 export function scrollWikiSection(sectionId) {
-  const wikiMainScroll = document.querySelector("#hello .wiki-vector-main");
+  const wikiMainScroll = document.getElementById("wikiMainScroll");
   const target = document.getElementById(sectionId);
 
   if (!wikiMainScroll || !target) {

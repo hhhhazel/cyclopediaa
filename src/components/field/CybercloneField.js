@@ -32,6 +32,36 @@ export default function CybercloneField() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [hovered, setHovered] = useState(null);
+  const [openBookItemId, setOpenBookItemId] = useState(null);
+
+  function getRecordKey(record) {
+    return record.id || String(record.clone_number) + "-" + record.gif_name;
+  }
+
+  useEffect(function () {
+    function handlePointerDown(event) {
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      if (
+        target.closest(".floating-arrow") ||
+        target.closest(".arrow-mini-dialog")
+      ) {
+        return;
+      }
+
+      setOpenBookItemId(null);
+    }
+
+    window.addEventListener("pointerdown", handlePointerDown);
+
+    return function () {
+      window.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, []);
 
   useEffect(function () {
     let cancelled = false;
@@ -141,12 +171,20 @@ export default function CybercloneField() {
 
         <div className="cyberfling-scene" aria-label="Cyberclone field">
           {records.map(function (record) {
+            const recordKey = getRecordKey(record);
+
             return (
               <CybercloneItem
-                key={record.id || record.clone_number + "-" + record.gif_name}
+                key={recordKey}
                 record={record}
                 onHover={setHovered}
                 onOpenMeme={openMemeEditor}
+                isBookOpen={openBookItemId === recordKey}
+                onToggleBook={function () {
+                  setOpenBookItemId(function (current) {
+                    return current === recordKey ? null : recordKey;
+                  });
+                }}
               />
             );
           })}
