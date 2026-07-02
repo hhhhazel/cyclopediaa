@@ -51,8 +51,16 @@ export default function RootLayout({ children }) {
   }
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      translate="no"
+      className="notranslate"
+    >
+      <head>
+        <meta name="google" content="notranslate" />
+      </head>
+      <body suppressHydrationWarning className="notranslate">
          {/* 全站搜索顶栏：搜索框 + Donate 等（不含 Recall clones） */}
     <header className="site-global-header wiki-vector-header z-[9999]" id="siteGlobalHeader">
       <div className="wiki-vector-header-inner">
