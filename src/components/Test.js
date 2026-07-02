@@ -22,6 +22,8 @@ const AD_STEPS = [
   { phase: "book", layout: "layout-book", labelText: "", closePos: "top", closeStyle: "pink" },
 ];
 
+const INITIAL_AD_STEP = 1;
+
 const DEFAULT_CLONE_IMAGES = [
   { gif: "/public/images/cyberclone-01.gif", still: "/images/1_0000.png" },
   { gif: "/public/images/cyberclone-02.gif", still: "/images/2_0000.png" },
@@ -86,8 +88,8 @@ export default function CybercloneTest({
   const nextCloneNumberRef = useRef(initialCloneNumber);
   const codenameRef = useRef("anonymous");
 
-  const [adStep, setAdStep] = useState(0);
-  const [adMaxReached, setAdMaxReached] = useState(0);
+  const [adStep, setAdStep] = useState(INITIAL_AD_STEP);
+  const [adMaxReached, setAdMaxReached] = useState(INITIAL_AD_STEP);
   const [answers, setAnswers] = useState([null, null, null, null, null]);
   const [codenameInput, setCodenameInput] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -188,8 +190,8 @@ export default function CybercloneTest({
 
   function resetTest() {
     clearTimers();
-    setAdStep(0);
-    setAdMaxReached(0);
+    setAdStep(INITIAL_AD_STEP);
+    setAdMaxReached(INITIAL_AD_STEP);
     setAnswers([null, null, null, null, null]);
     setCodenameInput("");
     codenameRef.current = "anonymous";
@@ -255,7 +257,7 @@ export default function CybercloneTest({
     const delta = direction === "prev" ? -1 : 1;
     const nextStep = adStep + delta;
 
-    if (nextStep < 0 || nextStep > adMaxReached) {
+    if (nextStep < INITIAL_AD_STEP || nextStep > adMaxReached) {
       return;
     }
 
@@ -393,7 +395,7 @@ export default function CybercloneTest({
               type="button"
               className="cyberclone-ad-nav-btn"
               aria-label="Previous advertisement"
-              disabled={adStep <= 0}
+              disabled={adStep <= INITIAL_AD_STEP}
               onClick={function () {
                 navigateAd("prev");
               }}
