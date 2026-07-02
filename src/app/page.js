@@ -2,17 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import WikiLinkPreviewLayer from "../components/WikiLinkPreviewLayer";
+import WikiImageCloneLayer from "../components/WikiImageCloneLayer";
 import WikiLogoCarousel from "../components/WikiLogoCarousel";
 import WikiProfileInfobox from "../components/WikiProfileInfobox";
 import WikiLabThumbCanvas from "../components/WikiLabThumbCanvas";
 import WikiTocNav from "../components/WikiTocNav";
 import WikiGestureCaptcha from "../components/WikiGestureCaptcha";
-import Link from "next/link";
 import CybercloneTest from "../components/Test";
 
 import { useRouter } from "next/navigation";
 
 import { releaseIntoField } from "../../lib/field/releaseIntoField";
+import { consumePendingCyclopediaSearch } from "../../lib/search/cyclopediaSearch";
 
 const WORDART_PHRASES_PER_VERSION = 10;
 const WORDART_VERSION_INTERVAL_MS = 1000;
@@ -524,18 +525,109 @@ function getMobileWordArtPhraseCount(root) {
 export default function Home() {
   const [wordArtVersions, setWordArtVersions] = useState([]);
   const [selectedWordArtVersionId, setSelectedWordArtVersionId] = useState("");
-  const [isWordArtStopped, setIsWordArtStopped] = useState(false);
+  const [isWordArtStopped, setIsWordArtStopped] = useState(true);
+  const [textAppearanceSize, setTextAppearanceSize] = useState("standard");
+  const [isImageCloneStopped, setIsImageCloneStopped] = useState(true);
+  const [imageCloneCount, setImageCloneCount] = useState(0);
+  const [imageCloneVersions, setImageCloneVersions] = useState([]);
+  const [selectedImageCloneVersionId, setSelectedImageCloneVersionId] =
+    useState("image-version-0");
+  const [imageAppearanceSize, setImageAppearanceSize] = useState("standard");
   const [isTocHidden, setIsTocHidden] = useState(false);
   const wordArtRootRef = useRef(null);
+  const textCloningInitializedRef = useRef(false);
   const wordArtVersionsRef = useRef([]);
   const wordArtIntervalRef = useRef(null);
   const latestChangedCountRef = useRef(0);
   const versionIndexRef = useRef(0);
   const latestWordArtVersionIdRef = useRef("");
   const selectedWordArtVersionIdRef = useRef("");
+  const latestImageCloneCountRef = useRef(0);
+  const imageVersionIndexRef = useRef(0);
+  const latestImageCloneVersionIdRef = useRef("image-version-0");
+  const selectedImageCloneVersionIdRef = useRef("image-version-0");
+  const imageCloneVersionsRef = useRef([]);
 
 
   
+
+  function stopImageCloneChannel() {
+    setIsImageCloneStopped(true);
+  }
+
+  function handleImageCloneVersionSelect(version) {
+    selectedImageCloneVersionIdRef.current = version.id;
+    setSelectedImageCloneVersionId(version.id);
+  }
+
+  function handleImageCloneCountChange(count) {
+    setImageCloneCount(count);
+
+    if (count === 0) {
+      return;
+    }
+
+    const previousCount = latestImageCloneCountRef.current;
+    latestImageCloneCountRef.current = count;
+
+    if (count <= previousCount) {
+      return;
+    }
+
+    const wasViewingLatest =
+      selectedImageCloneVersionIdRef.current ===
+      latestImageCloneVersionIdRef.current;
+    imageVersionIndexRef.current += 1;
+
+    const nextVersion = {
+      id: "image-version-" + imageVersionIndexRef.current,
+      label: formatWordArtVersionTime(new Date()),
+      changedCount: count,
+    };
+
+    latestImageCloneVersionIdRef.current = nextVersion.id;
+    setImageCloneVersions(function (versions) {
+      const nextVersions = [nextVersion].concat(versions);
+
+      imageCloneVersionsRef.current = nextVersions;
+
+      return nextVersions;
+    });
+
+    if (wasViewingLatest) {
+      selectedImageCloneVersionIdRef.current = nextVersion.id;
+      setSelectedImageCloneVersionId(nextVersion.id);
+    }
+  }
+
+  function beginImageClone() {
+    if (!imageCloneVersionsRef.current.length) {
+      const initialVersion = {
+        id: "image-version-0",
+        label: "Initial",
+        changedCount: latestImageCloneCountRef.current || imageCloneCount || 0,
+      };
+
+      imageVersionIndexRef.current = 0;
+      latestImageCloneVersionIdRef.current = initialVersion.id;
+      selectedImageCloneVersionIdRef.current = initialVersion.id;
+      imageCloneVersionsRef.current = [initialVersion];
+      setImageCloneVersions([initialVersion]);
+      setSelectedImageCloneVersionId(initialVersion.id);
+    }
+
+    setIsImageCloneStopped(false);
+  }
+
+  function handleToggleImageClone() {
+    if (!isImageCloneStopped) {
+      stopImageCloneChannel();
+      return;
+    }
+
+    stopWordArtVersionInterval();
+    beginImageClone();
+  }
 
   function handleWordArtVersionSelect(version) {
     const root = wordArtRootRef.current;
@@ -650,48 +742,30 @@ export default function Home() {
     );
   }
 
-  function handleToggleWordArtVersions() {
+  function beginWordArtCloning() {
+    const root = wordArtRootRef.current;
+
+    if (!root) {
+      return;
+    }
+
+    stopImageCloneChannel();
+
+    if (!textCloningInitializedRef.current) {
+      initializeWikiTextCloning(root);
+      textCloningInitializedRef.current = true;
+    }
+
     if (isMobileWordArtViewport()) {
-      const root = wordArtRootRef.current;
-
-      if (root) {
-        applyMobileWordArtSnapshot(root);
-      }
-
+      applyMobileWordArtSnapshot(root);
       return;
     }
 
     if (wordArtIntervalRef.current) {
-      stopWordArtVersionInterval();
       return;
     }
 
-    startWordArtVersionInterval();
-  }
-
-  useEffect(function () {
-    if (window.location.hash.startsWith("#wiki-sec")) {
-      window.history.replaceState(
-        null,
-        "",
-        window.location.pathname + window.location.search
-      );
-    }
-  }, []);
-
-  useEffect(function () {
-    const root = document.querySelector("#hello .wiki-vector-content");
-
-    if (!root) {
-      return undefined;
-    }
-
-    wordArtRootRef.current = root;
-    initializeWikiTextCloning(root);
-
-    if (isMobileWordArtViewport()) {
-      applyMobileWordArtSnapshot(root);
-    } else {
+    if (!wordArtVersionsRef.current.length) {
       const initialVersion = {
         id: "wordart-version-0",
         label: "Initial",
@@ -705,10 +779,52 @@ export default function Home() {
       selectedWordArtVersionIdRef.current = initialVersion.id;
       setWordArtVersions([initialVersion]);
       setSelectedWordArtVersionId(initialVersion.id);
-      setIsWordArtStopped(false);
       applyRandomWordArtCount(root, initialVersion.changedCount);
-      startWordArtVersionInterval();
     }
+
+    startWordArtVersionInterval();
+  }
+
+  function handleToggleWordArtVersions() {
+    if (isMobileWordArtViewport()) {
+      if (!isWordArtStopped) {
+        return;
+      }
+
+      beginWordArtCloning();
+      return;
+    }
+
+    if (wordArtIntervalRef.current) {
+      stopWordArtVersionInterval();
+      return;
+    }
+
+    beginWordArtCloning();
+  }
+
+  useEffect(function () {
+    if (window.location.hash.startsWith("#wiki-sec")) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+      );
+    }
+
+    consumePendingCyclopediaSearch(
+      document.getElementById("wikiSearchInput")
+    );
+  }, []);
+
+  useEffect(function () {
+    const root = document.querySelector("#hello .wiki-vector-content");
+
+    if (!root) {
+      return undefined;
+    }
+
+    wordArtRootRef.current = root;
 
     return function () {
       if (wordArtIntervalRef.current) {
@@ -717,6 +833,7 @@ export default function Home() {
 
       wordArtIntervalRef.current = null;
       wordArtRootRef.current = null;
+      textCloningInitializedRef.current = false;
     };
   }, []);
 
@@ -786,7 +903,7 @@ export default function Home() {
                   <WikiTocNav className="wiki-toc-nav wiki-toc-nav--popover" />
                 </div>
               </div>
-              <h1 className="wiki-article-title">Cyberclone</h1>
+              <h1 className="wiki-article-title">Kardashian family</h1>
             </div>
 
             <div className="wiki-article-tools">
@@ -807,9 +924,13 @@ export default function Home() {
               
 
               <p className="wiki-lead">
-                <strong>Cyberclone: The Internet, Memes, and Mass Imitation</strong><br />
-                By collecting internet images related to Kardashian family memes from 2007 to 2026, this website
-                examines how meme-driven imitation influences consumption, identity, embodiment, etc.
+                The Kardashian family has become one of the most recognisable image systems within contemporary
+                internet culture. Beyond television and celebrity media, its visual fragments have circulated through
+                memes, screenshots, reaction images, filters, poses, beauty trends, products, and everyday online
+                performances. These images are repeatedly copied, edited, reposted, embodied, and transformed by
+                users, producing countless similar but never identical versions. In this process, the meme no longer
+                remains a single image or joke. It becomes a reproducible cultural template, entering a chain of
+                digital cloning through which people participate in, imitate, and extend the same visual pattern.
               </p>
 
               <h2 id="wiki-sec-abstract" className="wiki-heading">Abstract</h2>
@@ -919,7 +1040,6 @@ export default function Home() {
                 extended into consumption, language, and bodily practice, Cyberclone.
               </p>
 
-              <Link href="/lab">
               <figure className="wiki-thumb wiki-thumb-lab">
                 <div className="wiki-thumb-inner">
                  
@@ -930,8 +1050,6 @@ export default function Home() {
                   </figcaption>
                 </div>
               </figure>
-
-              </Link>
 
               <h2 id="wiki-sec-2" className="wiki-heading">Meme, Imitation, and Clone</h2>
 
@@ -1238,7 +1356,6 @@ export default function Home() {
 
               <h3 id="wiki-sec-5-5" className="wiki-heading"><a className="wiki-inline-link" href="#" data-preview-index="47">Imitative Inertia</a></h3>
               
-              <Link href="/archive">
               <figure className="wiki-thumb wiki-thumb-archive">
                 <div className="wiki-thumb-inner">
                
@@ -1249,7 +1366,6 @@ export default function Home() {
                   </figcaption>
                 </div>
               </figure>
-              </Link>
               <p>
                 Many classic meme sounds, gestures, and phrases detach from their original scenes and enter everyday life.
                 Kardashianintonation, raspy tones, exaggerated pauses, dragged-out vocal habits, and performative gestures can
@@ -1266,7 +1382,6 @@ export default function Home() {
               <h2 id="wiki-sec-6" className="wiki-heading">Identity and Participatory Popularity</h2>
 
 
-              <Link href="/test">
               <figure className="wiki-thumb wiki-thumb-left">
                 <div className="wiki-thumb-inner">
                 
@@ -1277,7 +1392,6 @@ export default function Home() {
                   </figcaption>
                 </div>
               </figure>
-              </Link>
 
               <h3 id="wiki-sec-6-1" className="wiki-heading">Participatory Popularity</h3>
               <p>
@@ -1429,39 +1543,145 @@ export default function Home() {
            
 
               <h2 className="wiki-tools-title">Appearance</h2>
-              <form className="wiki-version-form" aria-label="WordArt version history">
-                <div className="wiki-version-options">
-                  {wordArtVersions.map(function (version) {
-                    return (
-                      <label className="wiki-version-option" key={version.id}>
-                        <input
-                          className="wiki-version-radio"
-                          type="radio"
-                          name="wordart-version"
-                          checked={selectedWordArtVersionId === version.id}
-                          onChange={function () {
-                            handleWordArtVersionSelect(version);
-                          }}
-                        />
-                        <span className="wiki-version-control" aria-hidden="true"></span>
-                        <span className="wiki-version-copy">
-                          <span className="wiki-version-time">{version.label}</span>
-                          <span className="wiki-version-count">
-                            Page Cloned ({version.changedCount} phrases)
+
+              <div className="wiki-appearance-group">
+                <p className="wiki-appearance-label">Text</p>
+                <form className="wiki-version-form" aria-label="Text clone version history">
+                  <div className="wiki-version-options">
+                    {wordArtVersions.map(function (version) {
+                      return (
+                        <label className="wiki-version-option" key={version.id}>
+                          <input
+                            className="wiki-version-radio"
+                            type="radio"
+                            name="text-clone-version"
+                            checked={selectedWordArtVersionId === version.id}
+                            onChange={function () {
+                              handleWordArtVersionSelect(version);
+                            }}
+                          />
+                          <span className="wiki-version-control" aria-hidden="true"></span>
+                          <span className="wiki-version-copy">
+                            <span className="wiki-version-time">{version.label}</span>
+                            <span className="wiki-version-count">
+                              Page Cloned ({version.changedCount} phrases)
+                            </span>
                           </span>
-                        </span>
-                      </label>
-                    );
-                  })}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </form>
+                <button
+                  className="wiki-version-stop site-ui-glow"
+                  type="button"
+                  onClick={handleToggleWordArtVersions}
+                >
+                  {isWordArtStopped ? "Start clone" : "Stop clone"}
+                </button>
+                <div className="wiki-appearance-options" aria-label="Text clone size">
+                  <button
+                    className={
+                      "wiki-appearance-btn" +
+                      (textAppearanceSize === "small" ? " wiki-appearance-btn--active" : "")
+                    }
+                    type="button"
+                    onClick={function () {
+                      setTextAppearanceSize("small");
+                    }}
+                  >
+                    Small
+                  </button>
+                  <button
+                    className={
+                      "wiki-appearance-btn" +
+                      (textAppearanceSize === "standard" ? " wiki-appearance-btn--active" : "")
+                    }
+                    type="button"
+                    onClick={function () {
+                      setTextAppearanceSize("standard");
+                    }}
+                  >
+                    Standard
+                  </button>
+                  <button
+                    className={
+                      "wiki-appearance-btn" +
+                      (textAppearanceSize === "large" ? " wiki-appearance-btn--active" : "")
+                    }
+                    type="button"
+                    onClick={function () {
+                      setTextAppearanceSize("large");
+                    }}
+                  >
+                    Large
+                  </button>
                 </div>
-              </form>
-              <button
-                className="wiki-version-stop"
-                type="button"
-                onClick={handleToggleWordArtVersions}
-              >
-                {isWordArtStopped ? "Start again" : "Stop cloning"}
-              </button>
+              </div>
+
+              <div className="wiki-appearance-group">
+                <p className="wiki-appearance-label">Image</p>
+                <form className="wiki-version-form" aria-label="Image clone version history">
+                  <div className="wiki-version-options">
+                    {imageCloneVersions.map(function (version) {
+                      return (
+                        <label className="wiki-version-option" key={version.id}>
+                          <input
+                            className="wiki-version-radio"
+                            type="radio"
+                            name="image-clone-version"
+                            checked={selectedImageCloneVersionId === version.id}
+                            onChange={function () {
+                              handleImageCloneVersionSelect(version);
+                            }}
+                          />
+                          <span className="wiki-version-control" aria-hidden="true"></span>
+                          <span className="wiki-version-copy">
+                            <span className="wiki-version-time">{version.label}</span>
+                            <span className="wiki-version-count">
+                              Images Cloned ({version.changedCount} items)
+                            </span>
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </form>
+                <button
+                  className="wiki-version-stop wiki-image-clone-toggle site-ui-glow"
+                  id="wiki-image-clone-toggle"
+                  type="button"
+                  onClick={handleToggleImageClone}
+                >
+                  {isImageCloneStopped ? "Start clone" : "Stop clone"}
+                </button>
+                <div className="wiki-appearance-options" aria-label="Image clone size">
+                  <button
+                    className={
+                      "wiki-appearance-btn" +
+                      (imageAppearanceSize === "standard" ? " wiki-appearance-btn--active" : "")
+                    }
+                    type="button"
+                    onClick={function () {
+                      setImageAppearanceSize("standard");
+                    }}
+                  >
+                    Standard
+                  </button>
+                  <button
+                    className={
+                      "wiki-appearance-btn" +
+                      (imageAppearanceSize === "wide" ? " wiki-appearance-btn--active" : "")
+                    }
+                    type="button"
+                    onClick={function () {
+                      setImageAppearanceSize("wide");
+                    }}
+                  >
+                    Wide
+                  </button>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
@@ -1478,6 +1698,10 @@ export default function Home() {
       </div>
     </section>
     <WikiLinkPreviewLayer />
+    <WikiImageCloneLayer
+      cloning={!isImageCloneStopped}
+      onCountChange={handleImageCloneCountChange}
+    />
   </div>
   );
 }

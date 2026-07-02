@@ -162,7 +162,7 @@ export default function WikiGestureCaptcha() {
   return (
     <>
       <figure
-        className="wiki-thumb wiki-thumb-lab wiki-gesture-captcha-thumb"
+        className="wiki-thumb wiki-thumb-lab wiki-gesture-captcha-thumb site-ui-glow"
         onClick={openCaptcha}
         onKeyDown={function (event) {
           if (event.key === "Enter" || event.key === " ") {

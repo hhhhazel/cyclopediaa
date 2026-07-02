@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAssetByGifName, getLevelClass } from "../../../lib/field/assets";
+import { bindFieldItemDrag } from "../../../lib/field/bindItemDrag";
 
 function playGif(img) {
   if (!img) return;
@@ -26,21 +27,67 @@ export default function CybercloneItem({ record, onHover, onOpenMeme }) {
     return null;
   }
 
+  const itemRef = useRef(null);
+  const didDragRef = useRef(false);
   const [imgEl, setImgEl] = useState(null);
+  const [position, setPosition] = useState({
+    x: Number(record.x) || 50,
+    y: Number(record.y) || 50,
+  });
+
+  useEffect(
+    function () {
+      setPosition({
+        x: Number(record.x) || 50,
+        y: Number(record.y) || 50,
+      });
+    },
+    [record.id, record.x, record.y]
+  );
+
+  useEffect(
+    function () {
+      const item = itemRef.current;
+
+      if (!item) {
+        return undefined;
+      }
+
+      return bindFieldItemDrag(item, {
+        onDragStart: function () {
+          didDragRef.current = false;
+        },
+        onDragMove: function () {
+          didDragRef.current = true;
+        },
+        onPositionChange: function (xPercent, yPercent) {
+          setPosition({
+            x: Math.round(xPercent * 100) / 100,
+            y: Math.round(yPercent * 100) / 100,
+          });
+          item.style.left = "";
+          item.style.top = "";
+        },
+      });
+    },
+    [record.id]
+  );
 
   return (
     <div
+      ref={itemRef}
       className={"cyberfling-item saved-cyberclone-item " + getLevelClass(record.level)}
       style={{
-        left: record.x + "%",
-        top: record.y + "%",
-        zIndex: Math.round(Number(record.y) * 10),
+        left: position.x + "%",
+        top: position.y + "%",
+        zIndex: Math.round(Number(position.y) * 10),
       }}
       data-id={record.id || ""}
       data-clone-number={String(record.clone_number || "")}
       data-level={String(record.level || "")}
       data-source={record.source || "visitor"}
       data-codename={record.codename || "anonymous"}
+      data-created-at={record.created_at || ""}
       onMouseEnter={function () {
         playGif(imgEl);
         onHover?.(record);
@@ -50,6 +97,11 @@ export default function CybercloneItem({ record, onHover, onOpenMeme }) {
         onHover?.(null);
       }}
       onDoubleClick={function (event) {
+        if (didDragRef.current) {
+          didDragRef.current = false;
+          return;
+        }
+
         event.preventDefault();
         onOpenMeme?.(asset.gif);
       }}

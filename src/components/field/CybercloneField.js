@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getAssetByGifName } from "../../../lib/field/assets";
 import { loadCybercloneFieldRecords } from "../../../lib/field/loadRecords";
+import { consumePendingCodenameSearch } from "../../../lib/search/codenameSearch";
 import CybercloneItem from "./CybercloneItem";
 import "./cyberclone-field.css";
 
@@ -59,12 +59,43 @@ export default function CybercloneField() {
     };
   }, []);
 
+  useEffect(
+    function () {
+      if (loading || error || records.length === 0) {
+        return;
+      }
+
+      consumePendingCodenameSearch({
+        onSelectRecord: setHovered,
+      });
+    },
+    [loading, error, records]
+  );
+
+  useEffect(function () {
+    function handleCodenameSearchHit(event) {
+      if (event.detail) {
+        setHovered(event.detail);
+      }
+    }
+
+    window.addEventListener(
+      "cyberpedia:codename-search-hit",
+      handleCodenameSearchHit
+    );
+
+    return function () {
+      window.removeEventListener(
+        "cyberpedia:codename-search-hit",
+        handleCodenameSearchHit
+      );
+    };
+  }, []);
+
   function openMemeEditor(gifPath) {
     if (!gifPath) return;
     router.push("/meme?gif=" + encodeURIComponent(gifPath));
   }
-
-  const hoveredAsset = hovered ? getAssetByGifName(hovered.gif_name) : null;
 
   return (
     <div className="cyberclone-field-page field-env-slate">
@@ -94,7 +125,7 @@ export default function CybercloneField() {
           {hovered ? (
             <>
               <p>
-                no.{String(hovered.clone_number || 0).padStart(3, "0")} · lv.
+                No.{String(hovered.clone_number || 0).padStart(3, "0")} · Lv.
                 {String(hovered.level || 0).padStart(2, "0")}
               </p>
               <p>{hovered.codename || "anonymous"}</p>
@@ -102,8 +133,8 @@ export default function CybercloneField() {
             </>
           ) : (
             <>
-              <p>cyberclone field</p>
-              <p>hover a clone · double-click for meme</p>
+              <p>Cyberclone field</p>
+              <p>Hover a clone · double-click for meme</p>
             </>
           )}
         </div>
@@ -120,51 +151,6 @@ export default function CybercloneField() {
             );
           })}
         </div>
-      </div>
-
-      <div className="field-studio-bottom-row">
-        <nav
-          className="field-tool-dock field-tool-dock--text"
-          aria-label="Field tools"
-        >
-          <button
-            type="button"
-            className="field-candy-btn field-candy-btn--meme"
-            aria-label="Open meme template"
-            title="Meme — Open the meme editor for the hovered field clone."
-            disabled={!hoveredAsset}
-            onClick={function () {
-              if (hoveredAsset) {
-                openMemeEditor(hoveredAsset.gif);
-              }
-            }}
-          >
-            <span className="field-candy-btn__media" aria-hidden="true">
-              {hoveredAsset ? (
-                <img src={hoveredAsset.still} alt="" width="40" height="40" draggable={false} />
-              ) : null}
-            </span>
-            <span className="field-candy-btn__label">Meme</span>
-          </button>
-
-          <button
-            type="button"
-            className="field-candy-btn field-candy-btn--gallery"
-            aria-label="Open Meme Commons"
-            title="Gallery — Browse captured memes in Meme Commons."
-            onClick={function () {
-              router.push("/commons");
-            }}
-          >
-            <span
-              className="field-candy-btn__media field-candy-btn__media--gallery"
-              aria-hidden="true"
-            >
-              ◫
-            </span>
-            <span className="field-candy-btn__label">Gallery</span>
-          </button>
-        </nav>
       </div>
     </div>
   );

@@ -111,9 +111,9 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             <button
               type="button"
               id="memeTemplateDragGif"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn is-active"
+              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn site-ui-glow is-active"
               aria-pressed="true"
-              title="Move GIF — Drag and resize clone characters on the meme canvas."
+              title="Move GIF"
               onClick={handleDragGif}
             >
               Move GIF
@@ -121,9 +121,9 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             <button
               type="button"
               id="memeTemplateDragText"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn"
+              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn site-ui-glow"
               aria-pressed="false"
-              title="Move text — Drag and scale meme text layers."
+              title="Move text"
               onClick={handleDragText}
             >
               Move text
@@ -131,8 +131,8 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             <button
               type="button"
               id="memeTemplateShuffle"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn"
-              title="Shuffle — Randomize layout, background, characters, and effects."
+              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn site-ui-glow"
+              title="Shuffle"
               onClick={handleShuffle}
             >
               Shuffle
@@ -140,31 +140,29 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             <button
               type="button"
               id="memeTemplateCapture"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn meme-template-tool-btn--camera"
-              aria-label="Capture this moment"
-              title="Capture — Save a screenshot of the current meme frame."
+              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn meme-template-tool-btn--photos site-ui-glow"
+              title="Capture this frame"
               onClick={handleCapture}
             >
-              <span aria-hidden="true">⌗</span>
+              photos
             </button>
+          </div>
+
+          <div className="meme-template-stage-wrap">
             <button
               type="button"
-              id="memeTemplateClose"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn meme-template-tool-btn--close"
-              aria-label="Close"
-              title="Close — Exit the meme editor."
+              className="meme-template-stage-close"
+              aria-label="Close meme editor"
               onClick={onClose}
             >
               ×
             </button>
-          </div>
-
-          <div
-            id="memeTemplateStage"
-            className="meme-template-stage meme-layout-classic meme-drag-mode-gif"
-            role="img"
-            aria-label="Meme template"
-          >
+            <div
+              id="memeTemplateStage"
+              className="meme-template-stage meme-layout-classic meme-drag-mode-gif"
+              role="img"
+              aria-label="Meme template"
+            >
             <canvas
               id="memeTemplateFx"
               className="meme-template-fx"
@@ -207,14 +205,10 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             />
             <div id="memeTemplateTextLayer" className="meme-template-text-layer" />
             <div id="memeTemplateCharsLayer" className="meme-template-chars-layer" />
+            </div>
           </div>
 
           <div id="memeTemplateEditPanel" className="meme-template-edit-panel" />
-
-          <p className="meme-template-hint">
-            Move GIF / Move text (scroll on text to resize) · Enter in box below for
-            line breaks · ⌗ captures this frame
-          </p>
         </div>
       </div>
 

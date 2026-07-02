@@ -30,6 +30,7 @@
     justify-content: center;
     gap: 8px;
     width: 100%;
+    margin-top: 10px;
   }
   
   .meme-template-tool-btn.site-candy-btn {
@@ -42,18 +43,47 @@
     text-transform: none;
   }
   
-  .meme-template-tool-btn.site-candy-btn--camera {
-    min-width: clamp(40px, 7vw, 44px);
-    font-size: clamp(16px, 2.4vw, 18px);
-    line-height: 1;
+  .meme-template-tool-btn.site-candy-btn--photos {
+    min-width: clamp(72px, 12vw, 88px);
+    font-size: clamp(11px, 1.5vw, 13px);
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
   }
-  
-  .meme-template-tool-btn.site-candy-btn--close {
-    min-width: clamp(40px, 7vw, 44px);
-    font-size: clamp(20px, 3vw, 22px);
-    line-height: 1;
+
+  .meme-template-stage-wrap {
+    position: relative;
+    width: min(420px, 92vw);
   }
-  
+
+  .meme-template-stage-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.12s ease, opacity 0.12s ease;
+  }
+
+  .meme-template-stage-close:hover {
+    opacity: 0.88;
+    transform: scale(1.06);
+  }
+
   .meme-template-tool-btn:not(.site-candy-btn) {
     min-width: 88px;
     height: 34px;
@@ -136,7 +166,7 @@
   
   .meme-template-stage {
     position: relative;
-    width: min(420px, 92vw);
+    width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 4px;
