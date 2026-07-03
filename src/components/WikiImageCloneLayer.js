@@ -24,6 +24,7 @@ import {
   separateSprites,
   wikiPreviewImagePath,
 } from "../../lib/wiki/imageClone";
+import { shouldUseRunnerCursorAt } from "../../lib/cursor/siteCursor";
 
 export default function WikiImageCloneLayer({ cloning, onCountChange }) {
   const [sprites, setSprites] = useState([]);
@@ -214,10 +215,26 @@ export default function WikiImageCloneLayer({ cloning, onCountChange }) {
     }, SWING_GIF_MS);
   }
 
+  function isNearRunnerUi(pointerX, pointerY) {
+    return (
+      shouldUseRunnerCursorAt(pointerX, pointerY) ||
+      isPointerNearImageCloneControl(pointerX, pointerY)
+    );
+  }
+
+  function isFlyswatterUiBlocked() {
+    if (typeof document === "undefined") {
+      return false;
+    }
+
+    return !!document.querySelector(".cyberclone-ad-overlay");
+  }
+
   function refreshFlyswatterUi(hasSprites, isCloning, pointerX, pointerY) {
     const sessionActive = isCloning || hasSprites;
-    const nearControl = isPointerNearImageCloneControl(pointerX, pointerY);
-    const showFlyswatter = sessionActive && !nearControl;
+    const nearRunnerUi = isNearRunnerUi(pointerX, pointerY);
+    const showFlyswatter =
+      sessionActive && !nearRunnerUi && !isFlyswatterUiBlocked();
 
     setSwatterVisible(showFlyswatter);
     document.body.classList.toggle("wiki-flyswatter-active", showFlyswatter);
@@ -233,10 +250,11 @@ export default function WikiImageCloneLayer({ cloning, onCountChange }) {
     const now = performance.now();
     const isCloning = cloningRef.current;
     const mouse = mouseRef.current;
-    const nearControl = isPointerNearImageCloneControl(mouse.x, mouse.y);
+    const nearRunnerUi = isNearRunnerUi(mouse.x, mouse.y);
     const flyswatterMode =
       (isCloning || spritesRef.current.length > 0) &&
-      !nearControl &&
+      !nearRunnerUi &&
+      !isFlyswatterUiBlocked() &&
       mouse.active;
 
     let nextSprites = spritesRef.current.map(function (sprite) {
@@ -450,7 +468,7 @@ export default function WikiImageCloneLayer({ cloning, onCountChange }) {
         return;
       }
 
-      if (isPointerNearImageCloneControl(event.clientX, event.clientY)) {
+      if (isNearRunnerUi(event.clientX, event.clientY)) {
         return;
       }
 

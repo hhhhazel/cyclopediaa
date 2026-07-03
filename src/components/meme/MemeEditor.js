@@ -20,7 +20,9 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
   const overlayRef = useRef(null);
   const stateRef = useRef(null);
   const captureAdOpenRef = useRef(false);
+  const zoomHintTimerRef = useRef(null);
   const [captureAd, setCaptureAd] = useState(null);
+  const [showZoomHint, setShowZoomHint] = useState(false);
 
   if (!stateRef.current) {
     stateRef.current = createMemeEditorState();
@@ -67,14 +69,37 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
     shuffleMemeLayout(refs, stateRef.current);
   }
 
+  function showMoveZoomHint() {
+    if (zoomHintTimerRef.current) {
+      clearTimeout(zoomHintTimerRef.current);
+    }
+
+    setShowZoomHint(true);
+
+    zoomHintTimerRef.current = setTimeout(function () {
+      setShowZoomHint(false);
+      zoomHintTimerRef.current = null;
+    }, 5000);
+  }
+
+  useEffect(function () {
+    return function () {
+      if (zoomHintTimerRef.current) {
+        clearTimeout(zoomHintTimerRef.current);
+      }
+    };
+  }, []);
+
   function handleDragGif() {
     const refs = buildMemeEditorRefs(overlayRef.current);
     setMemeDragMode(refs, stateRef.current, "gif");
+    showMoveZoomHint();
   }
 
   function handleDragText() {
     const refs = buildMemeEditorRefs(overlayRef.current);
     setMemeDragMode(refs, stateRef.current, "text");
+    showMoveZoomHint();
   }
 
   async function handleCapture() {
@@ -111,40 +136,40 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             <button
               type="button"
               id="memeTemplateDragGif"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn site-ui-glow is-active"
+              className="meme-template-tool-btn site-ui-glow is-active"
               aria-pressed="true"
-              title="Move GIF"
+              title="Click to move Cyberclone"
               onClick={handleDragGif}
             >
-              Move GIF
+              Click to move Cyberclone
             </button>
             <button
               type="button"
               id="memeTemplateDragText"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn site-ui-glow"
+              className="meme-template-tool-btn site-ui-glow"
               aria-pressed="false"
-              title="Move text"
+              title="Click to move text"
               onClick={handleDragText}
             >
-              Move text
+              Click to move text
             </button>
             <button
               type="button"
               id="memeTemplateShuffle"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn site-ui-glow"
-              title="Shuffle"
+              className="meme-template-tool-btn site-ui-glow"
+              title="Random changes"
               onClick={handleShuffle}
             >
-              Shuffle
+              Random changes
             </button>
             <button
               type="button"
               id="memeTemplateCapture"
-              className="site-candy-btn site-candy-btn--blue meme-template-tool-btn meme-template-tool-btn--photos site-ui-glow"
+              className="meme-template-tool-btn meme-template-tool-btn--photo site-ui-glow"
               title="Capture this frame"
               onClick={handleCapture}
             >
-              photos
+              Photo
             </button>
           </div>
 
@@ -157,6 +182,16 @@ export default function MemeEditor({ gifSrc, onClose, onUploadSuccess }) {
             >
               ×
             </button>
+            {showZoomHint ? (
+              <div className="meme-template-zoom-hint" role="status" aria-live="polite">
+                <p>
+                  Try the mouse wheel to zoom in / out
+                  <span className="meme-template-zoom-hint-sub">
+                    Drag to move · scroll to resize
+                  </span>
+                </p>
+              </div>
+            ) : null}
             <div
               id="memeTemplateStage"
               className="meme-template-stage meme-layout-classic meme-drag-mode-gif"

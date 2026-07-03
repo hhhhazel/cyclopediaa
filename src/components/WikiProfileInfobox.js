@@ -3,79 +3,115 @@ const PROFILE_ROWS = [
     label: "Born",
     value: (
       <>
-        Kimberly Noel Kardashian
+        Kim Kardashian Money GIF
         <br />
-        October 21, 1980 (age 45)
+        June 20, 2016
         <br />
-        Los Angeles, California, U.S.
+        GQ.com, United States
       </>
-    )
+    ),
   },
   {
     label: "Other names",
-    value: "Kim Kardashian West · Kim K"
+    value:
+      "Pay Me · Cash monaaaaaaaay · Kim K Money · Make It Rain Kim · Money Kim",
   },
   {
     label: "Occupations",
-    value: "Media personality · socialite · businesswoman · model · actress · producer · fashion designer"
+    value:
+      "reaction GIF · celebrity meme · money meme · digital sticker · caption template",
   },
   {
     label: "Years active",
-    value: "2003-present"
+    value: "2016–present",
   },
   {
-    label: "Television",
+    label: "Original source",
     value: (
       <>
-        <em>Keeping Up with the Kardashians</em>
+        Behind the Buttmoji: Kim Kardashian West on Her Favorite Kimojis
         <br />
-        <em>Kourtney and Kim Take Miami</em>
-        <br />
-        <em>Kourtney and Kim Take New York</em>
-        <br />
-        <em>The Kardashians</em>
+        GQ
       </>
-    )
+    ),
   },
-  
+  {
+    label: "Media",
+    value: "Giphy · Tenor · social media reposts · group chats",
+  },
+  {
+    label: "Known for",
+    value: (
+      <>
+        throwing dollar bills into the air from a stack of cash
+        <br />
+        being used to signal payment, spending, luxury, self-branding, and the
+        fantasy of becoming rich
+      </>
+    ),
+  },
+  {
+    label: "Related work",
+    value: (
+      <>
+        Kimoji
+        <br />
+        GQ July 2016 cover story
+      </>
+    ),
+  },
   {
     label: "Children",
-    value: "4, including North West"
+    value:
+      'cropped GIFs · captioned screenshots · "pay me" reactions · "make it rain" edits · money-themed image macros',
   },
   {
     label: "Parents",
     value: (
       <>
-        Robert Kardashian (father)
+        GQ
         <br />
-        Kris Jenner (mother)
+        Kimoji
         <br />
-        Caitlyn Jenner (stepmother)
+        Kim Kardashian brand
       </>
-    )
+    ),
   },
   {
     label: "Relatives",
-    value: "Kardashian Memes Family"
-  }
+    value: (
+      <>
+        Kardashian Crying Face
+        <br />
+        You&rsquo;re Doing Amazing, Sweetie
+        <br />
+        Kylie Jenner Lip Challenge
+        <br />
+        Kardashian Memes Family
+      </>
+    ),
+  },
 ];
 
 export default function WikiProfileInfobox() {
   return (
-    <aside className="wiki-profile-infobox" aria-label="Kim Kardashian profile summary">
+    <aside
+      className="wiki-profile-infobox"
+      aria-label="Kim Kardashian Money GIF profile summary"
+    >
       <h2 className="wiki-profile-title">Kim Kardashian</h2>
 
       <figure className="wiki-profile-figure">
         <div className="wiki-profile-image-frame ">
           <img
             src="/motion/1.png"
-            alt="Kim Kardashian"
+            alt="Kim Kardashian Money GIF"
             width="220"
             height="291"
             draggable={false}
           />
         </div>
-        <figcaption>Kardashian in 2014</figcaption>
+        <figcaption>Kim Kardashian Money GIF in 2016</figcaption>
       </figure>
 
       <dl className="wiki-profile-facts">

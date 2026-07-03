@@ -3,12 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
-  HAND_CURSOR_SRC,
   RUNNER_CURSOR_SRC,
   computeRunnerRotation,
   isFinePointerDevice,
   isFlyswatterActive,
-  isNearClickableTarget,
 } from "../../lib/cursor/siteCursor";
 
 const BODY_ACTIVE_CLASS = "site-custom-cursor-active";
@@ -16,11 +14,9 @@ const BODY_ACTIVE_CLASS = "site-custom-cursor-active";
 export default function SiteCursor() {
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [mode, setMode] = useState("runner");
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
 
-  const cursorRef = useRef(null);
   const lastPositionRef = useRef(null);
   const rotationRef = useRef(0);
   const rafRef = useRef(null);
@@ -47,25 +43,17 @@ export default function SiteCursor() {
           return;
         }
 
-        const cursorRoot = cursorRef.current;
-        const useHand = isNearClickableTarget(clientX, clientY, cursorRoot);
-        const nextMode = useHand ? "hand" : "runner";
+        const nextRotation = computeRunnerRotation(
+          lastPositionRef.current?.x ?? null,
+          lastPositionRef.current?.y ?? null,
+          clientX,
+          clientY,
+          rotationRef.current
+        );
 
-        if (nextMode === "runner") {
-          const nextRotation = computeRunnerRotation(
-            lastPositionRef.current?.x ?? null,
-            lastPositionRef.current?.y ?? null,
-            clientX,
-            clientY,
-            rotationRef.current
-          );
-
-          rotationRef.current = nextRotation;
-          setRotation(nextRotation);
-        }
-
+        rotationRef.current = nextRotation;
+        setRotation(nextRotation);
         lastPositionRef.current = { x: clientX, y: clientY };
-        setMode(nextMode);
         setPosition({ x: clientX, y: clientY });
         setVisible(true);
         setBodyActive(true);
@@ -110,10 +98,8 @@ export default function SiteCursor() {
         queuePointer(event.clientX, event.clientY);
       }
 
-      [RUNNER_CURSOR_SRC, HAND_CURSOR_SRC].forEach(function (src) {
-        const img = new Image();
-        img.src = src;
-      });
+      const runnerImage = new Image();
+      runnerImage.src = RUNNER_CURSOR_SRC;
 
       window.addEventListener("pointermove", handlePointerMove, { passive: true });
       window.addEventListener("pointerleave", handlePointerLeave);
@@ -139,24 +125,16 @@ export default function SiteCursor() {
     return null;
   }
 
-  const className =
-    mode === "hand"
-      ? "custom-cursor--hand"
-      : "custom-cursor--runner";
-
   return createPortal(
     <img
-      ref={cursorRef}
       id="customCursor"
-      className={className}
-      src={mode === "hand" ? HAND_CURSOR_SRC : RUNNER_CURSOR_SRC}
+      className="custom-cursor--runner"
+      src={RUNNER_CURSOR_SRC}
       style={{
         left: position.x + "px",
         top: position.y + "px",
         display: "block",
-        ...(mode === "runner"
-          ? { "--cursor-rotate": rotation + "deg" }
-          : { "--cursor-rotate": "0deg" }),
+        "--cursor-rotate": rotation + "deg",
       }}
       alt=""
       draggable={false}

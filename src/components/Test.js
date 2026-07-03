@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getNextCloneNumber } from "../../lib/field/cloneNumber";
+import { loadCybercloneFieldRecords } from "../../lib/field/loadRecords";
 import "./cyberclone-test.css";
 
 const QUESTIONS = [
@@ -21,8 +23,6 @@ const AD_STEPS = [
   { phase: "result", layout: "layout-result", labelText: "Advertisement", closePos: "top" },
   { phase: "book", layout: "layout-book", labelText: "", closePos: "top", closeStyle: "pink" },
 ];
-
-const INITIAL_AD_STEP = 1;
 
 const DEFAULT_CLONE_IMAGES = [
   { gif: "/public/images/cyberclone-01.gif", still: "/images/1_0000.png" },
@@ -88,14 +88,15 @@ export default function CybercloneTest({
   const nextCloneNumberRef = useRef(initialCloneNumber);
   const codenameRef = useRef("anonymous");
 
-  const [adStep, setAdStep] = useState(INITIAL_AD_STEP);
-  const [adMaxReached, setAdMaxReached] = useState(INITIAL_AD_STEP);
+  const [adStep, setAdStep] = useState(0);
+  const [adMaxReached, setAdMaxReached] = useState(0);
   const [answers, setAnswers] = useState([null, null, null, null, null]);
   const [codenameInput, setCodenameInput] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [level, setLevel] = useState(0);
   const [asset, setAsset] = useState(null);
   const [cloneNumber, setCloneNumber] = useState(initialCloneNumber);
+  const [resultCodename, setResultCodename] = useState("anonymous");
   const [exiting, setExiting] = useState(false);
   const [shaking, setShaking] = useState(false);
   const [closeHint, setCloseHint] = useState("");
@@ -143,14 +144,24 @@ export default function CybercloneTest({
     }, 1800);
   }, []);
 
-  const prepareResult = useCallback(function (nextAnswers) {
+  const prepareResult = useCallback(async function (nextAnswers) {
     const nextLevel = scoreFromAnswers(nextAnswers);
     const nextAsset = nextLevel > 0 ? pickRandomAsset(assets) : null;
-    const nextNumber = nextCloneNumberRef.current;
+    let nextNumber = 1;
 
+    try {
+      const records = await loadCybercloneFieldRecords();
+      nextNumber = getNextCloneNumber(records);
+    } catch (error) {
+      console.warn("Could not load field records for clone number:", error);
+      nextNumber = nextCloneNumberRef.current;
+    }
+
+    nextCloneNumberRef.current = nextNumber + 1;
     setLevel(nextLevel);
     setAsset(nextAsset);
     setCloneNumber(nextNumber);
+    setResultCodename(codenameRef.current);
 
     const payload = buildResultPayload({
       codename: codenameRef.current,
@@ -164,17 +175,13 @@ export default function CybercloneTest({
     return payload;
   }, [assets, onComplete]);
 
-  const goToStep = useCallback(function (stepIndex, answersForResult) {
+  const goToStep = useCallback(function (stepIndex) {
     setAdStep(stepIndex);
     setAnswering(false);
     triggerContentPop();
+  }, [triggerContentPop]);
 
-    if (stepIndex === 6 && answersForResult) {
-      prepareResult(answersForResult);
-    }
-  }, [prepareResult, triggerContentPop]);
-
-  const transitionToStep = useCallback(function (stepIndex, options) {
+  const transitionToStep = useCallback(function (stepIndex) {
     setExiting(true);
 
     if (transitionTimerRef.current) {
@@ -183,27 +190,20 @@ export default function CybercloneTest({
 
     transitionTimerRef.current = window.setTimeout(function () {
       setExiting(false);
-      goToStep(stepIndex, options && options.answers);
+      goToStep(stepIndex);
       transitionTimerRef.current = null;
     }, 200);
   }, [goToStep]);
 
-  function resetTest() {
-    clearTimers();
-    setAdStep(INITIAL_AD_STEP);
-    setAdMaxReached(INITIAL_AD_STEP);
-    setAnswers([null, null, null, null, null]);
-    setCodenameInput("");
-    codenameRef.current = "anonymous";
-    setCurrentQuestion(0);
-    setLevel(0);
-    setAsset(null);
-    setCloneNumber(nextCloneNumberRef.current);
-    setExiting(false);
-    setShaking(false);
-    setCloseHint("");
+  async function finishTestAndShowResult(nextAnswers) {
+    await prepareResult(nextAnswers);
+
+    setAdMaxReached(function (prev) {
+      return Math.max(prev, 6);
+    });
+
+    transitionToStep(6);
     setAnswering(false);
-    triggerContentPop();
   }
 
   function startTest() {
@@ -236,11 +236,7 @@ export default function CybercloneTest({
     setCurrentQuestion(nextQuestion);
 
     if (nextQuestion >= QUESTIONS.length) {
-      setAdMaxReached(function (prev) {
-        return Math.max(prev, 6);
-      });
-
-      transitionToStep(6, { answers: nextAnswers });
+      finishTestAndShowResult(nextAnswers);
       return;
     }
 
@@ -257,7 +253,7 @@ export default function CybercloneTest({
     const delta = direction === "prev" ? -1 : 1;
     const nextStep = adStep + delta;
 
-    if (nextStep < INITIAL_AD_STEP || nextStep > adMaxReached) {
+    if (nextStep < 0 || nextStep > adMaxReached) {
       return;
     }
 
@@ -359,9 +355,10 @@ export default function CybercloneTest({
   const resultFootnote =
     level > 0
       ? "Your test result becomes the cover of your clone booklet."
-      : "Enter the field to browse other specimens, or retake the test.";
+      : "Enter the field to browse other specimens.";
 
-  const releaseLabel = level > 0 ? "Release Into Field" : "Enter Field";
+  const releaseLabel =
+    level > 0 ? "Put Clone Into Field" : "Browse the Field";
 
   return (
     <div className="cyberclone-test-panel cyberclone-test-panel--ad-active min-h-[520px]">
@@ -395,7 +392,7 @@ export default function CybercloneTest({
               type="button"
               className="cyberclone-ad-nav-btn"
               aria-label="Previous advertisement"
-              disabled={adStep <= INITIAL_AD_STEP}
+              disabled={adStep <= 0}
               onClick={function () {
                 navigateAd("prev");
               }}
@@ -504,13 +501,18 @@ export default function CybercloneTest({
                   {level > 0 && (
                     <p className="cyberclone-ad-result-level">{resultLevelText}</p>
                   )}
+                  {level > 0 && (
+                    <p className="cyberclone-ad-result-codename">
+                      Codename: {resultCodename}
+                    </p>
+                  )}
                   <p className="cyberclone-ad-result-footnote">{resultFootnote}</p>
 
                   <div className="cyberclone-ad-actions cyberclone-ad-actions--result">
                     <button
                       type="button"
                       className={
-                        "cyberclone-ad-answer-button" +
+                        "cyberclone-ad-answer-button site-ui-glow" +
                         (level <= 0 ? " hidden" : "")
                       }
                       disabled={level <= 0}
@@ -520,17 +522,10 @@ export default function CybercloneTest({
                     </button>
                     <button
                       type="button"
-                      className="cyberclone-ad-answer-button"
+                      className="cyberclone-ad-answer-button site-ui-glow"
                       onClick={handleRelease}
                     >
                       {releaseLabel}
-                    </button>
-                    <button
-                      type="button"
-                      className="cyberclone-ad-answer-button"
-                      onClick={resetTest}
-                    >
-                      Retake Test
                     </button>
                   </div>
                 </div>

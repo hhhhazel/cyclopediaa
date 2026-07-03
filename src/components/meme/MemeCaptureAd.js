@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getVisitorCodename } from "../../../lib/meme/codename.js";
 import { saveMemeCommonsCapture } from "../../../lib/meme/uploadCapture.js";
+import "../cyberclone-test.css";
 
 export default function MemeCaptureAd({
   blob,
@@ -73,19 +74,20 @@ export default function MemeCaptureAd({
         aria-labelledby="memeCaptureAdHeadline"
       >
         <span className="cyberclone-ad-badge">AD</span>
+        <span className="cyberclone-ad-choices" aria-hidden="true" />
         <button
           type="button"
-          className="meme-capture-ad-close"
+          className="cyberclone-ad-close"
           aria-label="Close"
           onClick={onClose}
         >
           ×
         </button>
-        <p className="meme-capture-ad-label">Advertisement</p>
-        <h3 id="memeCaptureAdHeadline" className="meme-capture-ad-headline">
+        <p className="cyberclone-ad-label">Advertisement</p>
+        <h3 id="memeCaptureAdHeadline" className="cyberclone-ad-headline">
           Upload to Meme Commons
         </h3>
-        <p className="meme-capture-ad-copy">
+        <p className="cyberclone-ad-subtext">
           This frame is frozen in time. Share it in the public gallery.
         </p>
         <div
@@ -99,7 +101,7 @@ export default function MemeCaptureAd({
         <div className="meme-capture-ad-actions">
           <button
             type="button"
-            className="meme-capture-ad-upload"
+            className="cyberclone-ad-answer-button meme-capture-ad-upload"
             disabled={uploading}
             onClick={handleUpload}
           >
@@ -107,7 +109,7 @@ export default function MemeCaptureAd({
           </button>
           <button
             type="button"
-            className="meme-capture-ad-skip"
+            className="cyberclone-ad-answer-button meme-capture-ad-skip"
             disabled={uploading}
             onClick={onClose}
           >
